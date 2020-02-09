@@ -12,5 +12,8 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginClicked(view: View) {}
-    fun backToRegisterClicked(view: View) {}
+
+    fun backToRegisterClicked(view: View) {
+        finish()
+    }
 }
