@@ -35,6 +35,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.google.firebase:firebase-auth:19.2.0'
-    // add SDKs for any other desired Firebase products: https://firebase.google.com/docs/android/setup#available-libraries
+    implementation 'com.google.firebase:firebase-storage:19.1.1'
+    // more Firebase products:
+    // https://firebase.google.com/docs/android/setup#available-libraries
 
 }
