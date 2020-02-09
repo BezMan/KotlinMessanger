@@ -2,7 +2,6 @@ package com.dev.kotlinmessenger
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -12,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -22,7 +21,7 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_register)
     }
 
 
@@ -43,18 +42,19 @@ class RegisterActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (!it.isSuccessful) return@addOnCompleteListener
-            //else if successful
+                //else if successful
                 Log.d(className, "created user with uid: ${it.result?.user?.uid}")
                 uploadImageToFirebaseStorage()
             }
             .addOnFailureListener {
                 Log.d(className, "Failed to create user: ${it.message}")
-                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Failed to create user: ${it.message}", Toast.LENGTH_LONG)
+                    .show()
             }
     }
 
     private fun uploadImageToFirebaseStorage() {
-        if(selectedPhotoUri == null) return
+        if (selectedPhotoUri == null) return
 
         val filename = UUID.randomUUID().toString()
         val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
@@ -68,7 +68,7 @@ class RegisterActivity : AppCompatActivity() {
                     saveUserToFirebaseDatabase(profileImageUrl)
                 }
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Log.d(className, "Failed to upload image: ${it.message}")
             }
 
@@ -85,7 +85,7 @@ class RegisterActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d(className, "saved user to Firebase database")
             }
-            .addOnFailureListener{
+            .addOnFailureListener {
                 Log.d(className, "Failed to save user: ${it.message}")
             }
     }
@@ -104,16 +104,16 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 0 && resultCode == Activity.RESULT_OK && data != null){
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             selectedPhotoUri = data.data
             val bitmapResolver = BitmapResolver()
             val bitmap = bitmapResolver.getBitmap(contentResolver, selectedPhotoUri)
-            val bitmapDrawable = BitmapDrawable(bitmap)
-            photo_select_button.setBackgroundDrawable(bitmapDrawable)
+            photo_imageview_register.setImageBitmap(bitmap)
+            photo_select_button.alpha = 0f //we still want it to be in front, and clickable
         }
     }
 
 
 }
 
-data class User(val uid: String, val userName: String, val profileImageUrl: String)
+
