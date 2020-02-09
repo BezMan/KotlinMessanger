@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -62,10 +63,31 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d(className, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    Log.d(className, "File location: $it")
+                    val profileImageUrl = it.toString()
+                    Log.d(className, "File location: $profileImageUrl")
+                    saveUserToFirebaseDatabase(profileImageUrl)
                 }
             }
+            .addOnFailureListener{
+                Log.d(className, "Failed to upload image: ${it.message}")
+            }
 
+    }
+
+    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val userName = name_edittext_register.text.toString()
+
+        val user = User(uid, userName, profileImageUrl)
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d(className, "saved user to Firebase database")
+            }
+            .addOnFailureListener{
+                Log.d(className, "Failed to save user: ${it.message}")
+            }
     }
 
 
@@ -93,3 +115,5 @@ class RegisterActivity : AppCompatActivity() {
 
 
 }
+
+class User(val uid: String, val userName: String, val profileImageUrl: String)
