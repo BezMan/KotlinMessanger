@@ -1,5 +1,6 @@
 package com.dev.kotlinmessenger
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,5 +21,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("MainActivity", password_edittext_register.text.toString())
     }
 
-    fun alreadyHaveAccountClicked(view: View) {}
+    fun alreadyHaveAccountClicked(view: View) {
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        startActivity(loginIntent)
+    }
 }
