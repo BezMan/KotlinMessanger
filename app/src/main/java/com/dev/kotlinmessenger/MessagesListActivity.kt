@@ -24,24 +24,31 @@ class MessagesListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_new_message -> {
+                launchComposeMessage()
                 }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()
-                launchRegisterActivity()
+                launchRegister()
                 }
         }
         return super.onOptionsItemSelected(item)
     }
 
 
+    private fun launchComposeMessage() {
+        val composeIntent = Intent(this, ComposeMessageActivity::class.java)
+        startActivity(composeIntent)
+    }
+
+
     private fun verifyUserLoggedIn() {
         val uid = FirebaseAuth.getInstance().uid
         if (uid == null) {
-            launchRegisterActivity()
+            launchRegister()
         }
     }
 
-    private fun launchRegisterActivity() {
+    private fun launchRegister() {
         val registerIntent = Intent(this, RegisterActivity::class.java)
         registerIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(registerIntent)
