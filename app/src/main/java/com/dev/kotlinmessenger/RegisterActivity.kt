@@ -19,17 +19,41 @@ class RegisterActivity : AppCompatActivity() {
     private val className: String = this.javaClass.simpleName
     private var selectedPhotoUri: Uri? = null
 
+//LIFECYCLE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
     }
 
 
-    fun registerClicked(view: View) {
-        performRegister()
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            displayImage(data)
+        }
     }
 
+
+//CLICK EVENTS
+    fun registerClicked(view: View) {
+        performRegister()
+    }
+
+
+    fun alreadyHaveAccountClicked(view: View) {
+        val loginIntent = Intent(this, LoginActivity::class.java)
+        startActivity(loginIntent)
+    }
+
+
+    fun imageSelectClicked(view: View) {
+        val photoIntent = Intent(Intent.ACTION_PICK)
+        photoIntent.type = "image/*"
+        startActivityForResult(photoIntent, 0)
+    }
+
+
+//METHODS
     private fun performRegister() {
         val email = email_edittext_register.text.toString()
         val password = password_edittext_register.text.toString()
@@ -53,6 +77,7 @@ class RegisterActivity : AppCompatActivity() {
             }
     }
 
+
     private fun uploadImageToFirebaseStorage() {
         if (selectedPhotoUri == null) return
 
@@ -63,9 +88,7 @@ class RegisterActivity : AppCompatActivity() {
                 Log.d(className, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
-                    val profileImageUrl = it.toString()
-                    Log.d(className, "File location: $profileImageUrl")
-                    saveUserToFirebaseDatabase(profileImageUrl)
+                    saveUserToFirebaseDatabase(it)
                 }
             }
             .addOnFailureListener {
@@ -74,16 +97,21 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+
+    private fun saveUserToFirebaseDatabase(profileImageUrl: Uri) {
+        Log.d(className, "File location: $profileImageUrl")
+
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val userName = name_edittext_register.text.toString()
 
-        val user = User(uid, userName, profileImageUrl)
+        val user = User(uid, userName, profileImageUrl.toString())
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d(className, "saved user to Firebase database")
+
+                launchMessagesActivity()
             }
             .addOnFailureListener {
                 Log.d(className, "Failed to save user: ${it.message}")
@@ -91,26 +119,19 @@ class RegisterActivity : AppCompatActivity() {
     }
 
 
-    fun alreadyHaveAccountClicked(view: View) {
-        val loginIntent = Intent(this, LoginActivity::class.java)
-        startActivity(loginIntent)
+    private fun launchMessagesActivity() {
+        val intent = Intent(this, MessagesListActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
     }
 
-    fun imageSelectClicked(view: View) {
-        val photoIntent = Intent(Intent.ACTION_PICK)
-        photoIntent.type = "image/*"
-        startActivityForResult(photoIntent, 0)
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            selectedPhotoUri = data.data
-            val bitmapResolver = BitmapResolver()
-            val bitmap = bitmapResolver.getBitmap(contentResolver, selectedPhotoUri)
-            photo_imageview_register.setImageBitmap(bitmap)
-            photo_select_button.alpha = 0f //we still want it to be in front, and clickable
-        }
+    private fun displayImage(data: Intent) {
+        selectedPhotoUri = data.data
+        val bitmapResolver = BitmapResolver()
+        val bitmap = bitmapResolver.getBitmap(contentResolver, selectedPhotoUri)
+        photo_imageview_register.setImageBitmap(bitmap)
+        photo_select_button.alpha = 0f //we still want it to be in front, and clickable
     }
 
 
