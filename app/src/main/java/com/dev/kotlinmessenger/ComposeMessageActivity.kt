@@ -27,8 +27,10 @@ class ComposeMessageActivity : AppCompatActivity() {
         supportActionBar?.title = "Select User"
 
         adapter.setOnItemClickListener { item, view ->
+            val userItem = item as UserItem
+
             val intent = Intent(this, ChatLogActivity::class.java)
-//            intent.putExtra()
+            intent.putExtra(USER_KEY, userItem.user)
             startActivity(intent)
         }
         recyclerview_compose_message.adapter = adapter
@@ -57,11 +59,15 @@ class ComposeMessageActivity : AppCompatActivity() {
     }
 
 
+    companion object{
+        const val USER_KEY = "USER_KEY"
+    }
+
 }
 
 
 //Groupie alternative to RecyclerView Adapter class//
-class UserItem(private val user: User?) : Item() {
+class UserItem(val user: User?) : Item() {
 
     override fun getLayout() = R.layout.user_row
 

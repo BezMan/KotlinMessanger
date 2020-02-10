@@ -16,7 +16,8 @@ class ChatLogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
-        supportActionBar?.title = "Chat Log"
+        val user = intent.getParcelableExtra<User>(ComposeMessageActivity.USER_KEY)
+        supportActionBar?.title = user?.userName
 
         adapter.add(ChatItemFrom())
         adapter.add(ChatItemTo())
@@ -29,6 +30,7 @@ class ChatLogActivity : AppCompatActivity() {
 
 
 
+// Multiple Adapters for multiple recycler item layouts
 class ChatItemFrom: Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
     }
