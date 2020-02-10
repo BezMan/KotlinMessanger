@@ -1,5 +1,6 @@
 package com.dev.kotlinmessenger
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,11 @@ class ComposeMessageActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Select User"
 
+        adapter.setOnItemClickListener { item, view ->
+            val intent = Intent(this, ChatLogActivity::class.java)
+//            intent.putExtra()
+            startActivity(intent)
+        }
         recyclerview_compose_message.adapter = adapter
 
         fetchUsers()

@@ -11,6 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <activity android:name=".ChatLogActivity"
+            android:parentActivityName=".ComposeMessageActivity"/>
+
         <activity
             android:name=".ComposeMessageActivity"
             android:parentActivityName=".MessagesListActivity" />
