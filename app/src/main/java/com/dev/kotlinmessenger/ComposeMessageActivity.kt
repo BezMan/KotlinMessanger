@@ -7,14 +7,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.activity_compose_message.*
+import kotlinx.android.synthetic.main.user_row.view.*
 
 class ComposeMessageActivity : AppCompatActivity() {
 
     private val className: String = this.javaClass.simpleName
+    private val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,10 +25,6 @@ class ComposeMessageActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Select User"
 
-        val adapter = GroupAdapter<GroupieViewHolder>()
-        adapter.add(UserItem())
-        adapter.add(UserItem())
-        adapter.add(UserItem())
         recyclerview_compose_message.adapter = adapter
 
         fetchUsers()
@@ -35,34 +34,34 @@ class ComposeMessageActivity : AppCompatActivity() {
     private fun fetchUsers() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
-
+//Firebase DB changes
             override fun onDataChange(p0: DataSnapshot) {
                 p0.children.forEach {
                     Log.d(className, it.toString())
-
+                    val user = it.getValue(User::class.java)
+                    adapter.add(UserItem(user))
                 }
+                adapter.notifyDataSetChanged()
             }
 
             override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
         })
-
     }
 
 
 }
 
 
-
-class UserItem(/*private val song: User*/) : Item() {
+//Groupie alternative to RecyclerView Adapter class//
+class UserItem(private val user: User?) : Item() {
 
     override fun getLayout() = R.layout.user_row
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-//        viewHolder.title.text = song.title
-//        viewHolder.artist.text = song.artist
+        viewHolder.itemView.username_textview_message_row.text = user?.userName
+        Picasso.get().load(user?.profileImageUrl).into(viewHolder.itemView.imageview_message_row)
     }
 }
 
