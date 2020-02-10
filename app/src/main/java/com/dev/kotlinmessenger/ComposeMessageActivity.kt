@@ -67,7 +67,7 @@ class UserItem(private val user: User?) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.username_textview_message_row.text = user?.userName
-        Picasso.get().load(user?.profileImageUrl).into(viewHolder.itemView.imageview_message_row)
+        Picasso.get().load(user?.profileImageUrl).into(viewHolder.itemView.circleimageview_message_row)
     }
 }
 

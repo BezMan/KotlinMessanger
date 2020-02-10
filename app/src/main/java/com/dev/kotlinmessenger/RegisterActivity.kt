@@ -130,7 +130,7 @@ class RegisterActivity : AppCompatActivity() {
         selectedPhotoUri = data.data
         val bitmapResolver = BitmapResolver()
         val bitmap = bitmapResolver.getBitmap(contentResolver, selectedPhotoUri)
-        photo_imageview_register.setImageBitmap(bitmap)
+        photo_circleimageview_register.setImageBitmap(bitmap)
         photo_select_button.alpha = 0f //we still want it to be in front, and clickable
     }
 
