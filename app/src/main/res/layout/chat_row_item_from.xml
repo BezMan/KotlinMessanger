@@ -7,7 +7,7 @@
     android:paddingBottom="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/circleimageview_chat_row"
+        android:id="@+id/circleimageview_chat_row_from"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -18,17 +18,16 @@
         tools:src="@android:drawable/btn_star_big_on" />
 
     <TextView
-        android:id="@+id/textview_chat_row"
+        android:id="@+id/textview_chat_row_from"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edittext"
         android:padding="16dp"
-        android:text="this is my message this is my message this is my message this is my message this is my message this is my message this is my message"
-        app:layout_constraintStart_toEndOf="@id/circleimageview_chat_row"
+        app:layout_constraintStart_toEndOf="@id/circleimageview_chat_row_from"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintWidth_percent="0.6"
-        tools:text="this is my message this is my message this is my message this is my message this is my message" />
+        tools:text="message" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
