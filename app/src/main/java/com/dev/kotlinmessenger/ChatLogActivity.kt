@@ -1,7 +1,11 @@
 package com.dev.kotlinmessenger
 
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -13,15 +17,17 @@ class ChatLogActivity : AppCompatActivity() {
 
     private val className: String = this.javaClass.simpleName
     private val adapter = GroupAdapter<GroupieViewHolder>()
+    private var selectedUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
 
-        val user = intent.getParcelableExtra<User>(ComposeMessageActivity.USER_KEY)
-        supportActionBar?.title = user?.userName
+        selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
+        supportActionBar?.title = selectedUser?.userName
 
         setupRecyclerAdapterData()
+
     }
 
 
@@ -37,6 +43,30 @@ class ChatLogActivity : AppCompatActivity() {
 
         recyclerview_chat_log.adapter = adapter
     }
+
+
+    fun sendMessageClicked(view: View) {
+        performSendMessage()
+    }
+
+
+    private fun performSendMessage() {
+        val ref = FirebaseDatabase.getInstance().getReference("/messages").push()
+
+        val messageId = ref.key
+        val messageText = edittext_input_chat_log.text.toString()
+        val fromId = FirebaseAuth.getInstance().uid
+        val toId = selectedUser?.uid
+
+        val chatMessage = ChatMessage(messageId, messageText, fromId, toId)
+        ref.setValue(chatMessage)
+            .addOnSuccessListener {
+                Log.d(className, "saved our chat message, with id: $messageId")
+            }
+
+    }
+
+
 }
 
 
