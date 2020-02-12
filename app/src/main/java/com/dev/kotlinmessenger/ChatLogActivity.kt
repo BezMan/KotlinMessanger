@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -26,22 +29,46 @@ class ChatLogActivity : AppCompatActivity() {
         selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
         supportActionBar?.title = selectedUser?.userName
 
-        setupRecyclerAdapterData()
+        recyclerview_chat_log.adapter = adapter
+
+        listenForMessages()
+
 
     }
 
+    private fun listenForMessages() {
+        val ref = FirebaseDatabase.getInstance().getReference("/messages")
+        ref.addChildEventListener(object: ChildEventListener{
 
-    private fun setupRecyclerAdapterData() {
-        adapter.add(ChatItemFrom("From Message\n..."))
-        adapter.add(ChatItemTo("longer longer longer longer longer \n Message message message message..."))
-        adapter.add(ChatItemFrom("From Message\n..."))
-        adapter.add(ChatItemTo("longer longer longer longer longer \n Message message message message..."))
-        adapter.add(ChatItemFrom("From Message\n..."))
-        adapter.add(ChatItemTo("longer longer longer longer longer \n Message message message message..."))
-        adapter.add(ChatItemFrom("From Message\n..."))
-        adapter.add(ChatItemTo("longer longer longer longer longer \n Message message message message..."))
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                val chatMessage = p0.getValue(ChatMessage::class.java)
+                if(chatMessage != null) {
+                    Log.d(className, chatMessage.messageText)
 
-        recyclerview_chat_log.adapter = adapter
+                    if(chatMessage.fromId == FirebaseAuth.getInstance().uid) {
+                        adapter.add(ChatItemFrom(chatMessage.messageText))
+                    } else{
+                        adapter.add(ChatItemTo(chatMessage.messageText))
+
+                    }
+
+                }
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+            }
+
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+        })
     }
 
 
