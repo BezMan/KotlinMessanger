@@ -59,7 +59,7 @@ class ChatLogActivity : AppCompatActivity() {
                         adapter.add(ChatItemTo(chatMessage.messageText, selectedUser))
 
                     }
-
+                    recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
                 }
             }
 
@@ -80,7 +80,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
 
-    fun sendMessageClicked(view: View) {
+    fun sendMessageButtonClicked(view: View) {
         performSendMessage()
     }
 
@@ -89,15 +89,20 @@ class ChatLogActivity : AppCompatActivity() {
 
         val messageText = edittext_input_chat_log.text.toString()
 
-        val refSender = firebaseDatabase.getReference("/user-messages/$fromId/$toId").push()
-        val refReceiver = firebaseDatabase.getReference("/user-messages/$toId/$fromId").push()
+        if (messageText.trim().isNotEmpty()) {
 
-        val chatMessage = ChatMessage(refSender.key, messageText, fromId, toId)
+            val refSender = firebaseDatabase.getReference("/user-messages/$fromId/$toId").push()
+            val refReceiver = firebaseDatabase.getReference("/user-messages/$toId/$fromId").push()
 
-        refSender.setValue(chatMessage)
-        refReceiver.setValue(chatMessage)
+            val chatMessage = ChatMessage(refSender.key, messageText, fromId, toId)
+
+            refSender.setValue(chatMessage)
+            refReceiver.setValue(chatMessage)
+
+            edittext_input_chat_log.text.clear()
+        }
+
     }
-
 
 }
 
