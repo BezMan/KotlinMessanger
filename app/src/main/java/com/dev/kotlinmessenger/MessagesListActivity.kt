@@ -11,6 +11,10 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.xwray.groupie.GroupAdapter
+import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
+import com.xwray.groupie.kotlinandroidextensions.Item
+import kotlinx.android.synthetic.main.activity_messages_list.*
 
 class MessagesListActivity : AppCompatActivity() {
 
@@ -21,6 +25,7 @@ class MessagesListActivity : AppCompatActivity() {
 
     private val className: String = this.javaClass.simpleName
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private val adapter = GroupAdapter<GroupieViewHolder>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,8 +35,19 @@ class MessagesListActivity : AppCompatActivity() {
         fetchCurrentUser()
 
         verifyUserLoggedIn()
+
+        populateList()
     }
 
+
+    private fun populateList() {
+        recyclerview_messages_list.adapter = adapter
+
+        adapter.add(LatestMessageItem())
+        adapter.add(LatestMessageItem())
+        adapter.add(LatestMessageItem())
+
+    }
 
 
     private fun fetchCurrentUser() {
@@ -86,5 +102,17 @@ class MessagesListActivity : AppCompatActivity() {
         startActivity(registerIntent)
     }
 
+
+}
+
+
+//Adapter for RecyclerView item
+class LatestMessageItem: Item(){
+
+    override fun getLayout(): Int = R.layout.message_row
+
+    override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+
+    }
 
 }
