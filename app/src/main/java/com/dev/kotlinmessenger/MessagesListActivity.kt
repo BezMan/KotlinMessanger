@@ -7,14 +7,12 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.activity_messages_list.*
+import kotlinx.android.synthetic.main.message_row.view.*
 
 class MessagesListActivity : AppCompatActivity() {
 
@@ -25,7 +23,10 @@ class MessagesListActivity : AppCompatActivity() {
 
     private val className: String = this.javaClass.simpleName
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
+    private val fromId = firebaseAuth.uid
     private val adapter = GroupAdapter<GroupieViewHolder>()
+    private val latestMessagesMap = HashMap<String?, ChatMessage?>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,22 +37,50 @@ class MessagesListActivity : AppCompatActivity() {
 
         verifyUserLoggedIn()
 
-        populateList()
+        setupList()
     }
 
 
-    private fun populateList() {
+    private fun setupList() {
         recyclerview_messages_list.adapter = adapter
 
-        adapter.add(LatestMessageItem())
-        adapter.add(LatestMessageItem())
-        adapter.add(LatestMessageItem())
+        val ref = firebaseDatabase.getReference("/latest-messages/$fromId")
+        ref.addChildEventListener(object: ChildEventListener{
 
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                refreshListMessages(p0)
+            }
+
+            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                refreshListMessages(p0)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+            }
+
+            override fun onChildRemoved(p0: DataSnapshot) {
+            }
+
+        })
+
+    }
+
+
+    private fun refreshListMessages(p0: DataSnapshot){
+        val chatMessage = p0.getValue(ChatMessage::class.java)
+        latestMessagesMap[p0.key] = chatMessage
+        adapter.clear()
+        latestMessagesMap.values.forEach {
+            adapter.add(LatestMessageItem(it))
+        }
     }
 
 
     private fun fetchCurrentUser() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users/${firebaseAuth.uid}")
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$fromId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -91,7 +120,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun verifyUserLoggedIn() {
-        if (firebaseAuth.uid == null) {
+        if (fromId == null) {
             launchRegister()
         }
     }
@@ -107,11 +136,13 @@ class MessagesListActivity : AppCompatActivity() {
 
 
 //Adapter for RecyclerView item
-class LatestMessageItem: Item(){
+class LatestMessageItem(val chatMessage: ChatMessage?) : Item(){
 
     override fun getLayout(): Int = R.layout.message_row
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
+//        viewHolder.itemView.username_textview_message_row
+        viewHolder.itemView.last_message_textview_message_row.text = chatMessage?.messageText ?: ""
 
     }
 

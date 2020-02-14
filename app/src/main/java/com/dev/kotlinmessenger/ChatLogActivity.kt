@@ -91,13 +91,17 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (messageText.trim().isNotEmpty()) {
 
-            val refSender = firebaseDatabase.getReference("/user-messages/$fromId/$toId").push()
-            val refReceiver = firebaseDatabase.getReference("/user-messages/$toId/$fromId").push()
+            val refMessageListSender = firebaseDatabase.getReference("/user-messages/$fromId/$toId").push() //push == add
+            val refMessageListReceiver = firebaseDatabase.getReference("/user-messages/$toId/$fromId").push() //push == add
+            val refLatestMessageSender = firebaseDatabase.getReference("/latest-messages/$fromId/$toId") //no push == replace
+            val refLatestMessageReceiver = firebaseDatabase.getReference("/latest-messages/$toId/$fromId") //no push == replace
 
-            val chatMessage = ChatMessage(refSender.key, messageText, fromId, toId)
+            val chatMessage = ChatMessage(refMessageListSender.key, messageText, fromId, toId)
 
-            refSender.setValue(chatMessage)
-            refReceiver.setValue(chatMessage)
+            refMessageListSender.setValue(chatMessage)
+            refMessageListReceiver.setValue(chatMessage)
+            refLatestMessageSender.setValue(chatMessage)
+            refLatestMessageReceiver.setValue(chatMessage)
 
             edittext_input_chat_log.text.clear()
         }
