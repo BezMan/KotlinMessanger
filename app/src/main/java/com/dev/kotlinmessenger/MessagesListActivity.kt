@@ -47,6 +47,14 @@ class MessagesListActivity : AppCompatActivity() {
         recyclerview_messages_list.adapter = adapter
         recyclerview_messages_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
+        adapter.setOnItemClickListener { item, view ->
+            val messageItem = item as LatestMessageItem
+
+            val intent = Intent(this, ChatLogActivity::class.java)
+            intent.putExtra(ComposeMessageActivity.USER_KEY, messageItem.partnerUser)
+            startActivity(intent)
+        }
+
         val ref = firebaseDatabase.getReference("/latest-messages/$fromId")
         ref.addChildEventListener(object: ChildEventListener{
 
@@ -141,6 +149,8 @@ class MessagesListActivity : AppCompatActivity() {
 //Adapter for RecyclerView item
 class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
+    var partnerUser: User? = null
+
     override fun getLayout(): Int = R.layout.message_row
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
@@ -153,11 +163,11 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
-                val user = p0.getValue(User::class.java)
-                viewHolder.itemView.username_textview_message_row.text = user?.userName
+                partnerUser = p0.getValue(User::class.java)
+                viewHolder.itemView.username_textview_message_row.text = partnerUser?.userName
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
-                Picasso.get().load(user?.profileImageUrl).into(targetImageView)
+                Picasso.get().load(partnerUser?.profileImageUrl).into(targetImageView)
             }
 
             override fun onCancelled(p0: DatabaseError) {
