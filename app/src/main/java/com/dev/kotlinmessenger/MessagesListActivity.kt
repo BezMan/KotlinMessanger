@@ -6,8 +6,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -43,6 +45,7 @@ class MessagesListActivity : AppCompatActivity() {
 
     private fun setupList() {
         recyclerview_messages_list.adapter = adapter
+        recyclerview_messages_list.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
         val ref = firebaseDatabase.getReference("/latest-messages/$fromId")
         ref.addChildEventListener(object: ChildEventListener{
@@ -136,13 +139,30 @@ class MessagesListActivity : AppCompatActivity() {
 
 
 //Adapter for RecyclerView item
-class LatestMessageItem(val chatMessage: ChatMessage?) : Item(){
+class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
     override fun getLayout(): Int = R.layout.message_row
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
-//        viewHolder.itemView.username_textview_message_row
         viewHolder.itemView.last_message_textview_message_row.text = chatMessage?.messageText ?: ""
+
+        val partnerId: String? = if (chatMessage?.fromId == FirebaseAuth.getInstance().uid)
+            chatMessage?.toId else chatMessage?.fromId
+
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$partnerId")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val user = p0.getValue(User::class.java)
+                viewHolder.itemView.username_textview_message_row.text = user?.userName
+
+                val targetImageView = viewHolder.itemView.imageview_message_row
+                Picasso.get().load(user?.profileImageUrl).into(targetImageView)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
 
     }
 
