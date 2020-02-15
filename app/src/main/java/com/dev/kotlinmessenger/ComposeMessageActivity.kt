@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.currentUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -47,7 +48,9 @@ class ComposeMessageActivity : AppCompatActivity() {
                 p0.children.forEach {
                     Log.d(className, it.toString())
                     val user = it.getValue(User::class.java)
-                    adapter.add(UserItem(user))
+                    if (user?.userName != currentUser?.userName){
+                        adapter.add(UserItem(user))
+                    }
                 }
                 adapter.notifyDataSetChanged()
             }
