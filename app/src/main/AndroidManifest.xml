@@ -26,6 +26,7 @@
 
         <activity
             android:name=".ChatLogActivity"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".ComposeMessageActivity" />
 
         <activity android:name=".RegisterActivity" />

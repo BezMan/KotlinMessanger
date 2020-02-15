@@ -39,10 +39,25 @@ class ChatLogActivity : AppCompatActivity() {
 
         listenForMessages()
 
+        adjustListToKeyboard()
     }
 
 
-    //also initial list load and also on children added:
+    /** pushes up recycler view when softkeyboard popups up */
+    private fun adjustListToKeyboard() {
+        recyclerview_chat_log.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
+            if (bottom < oldBottom) {
+                recyclerview_chat_log.postDelayed({
+                    recyclerview_chat_log.scrollToPosition(
+                        recyclerview_chat_log.adapter!!.itemCount - 1
+                    )
+                }, 100)
+            }
+        }
+    }
+
+
+    /** populate list on initial load and also on children added */
     private fun listenForMessages() {
         val ref = firebaseDatabase.getReference("/user-messages/$myId/$toId")
         ref.addChildEventListener(object: ChildEventListener{
@@ -70,7 +85,6 @@ class ChatLogActivity : AppCompatActivity() {
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
             }
-
 
             override fun onChildRemoved(p0: DataSnapshot) {
             }

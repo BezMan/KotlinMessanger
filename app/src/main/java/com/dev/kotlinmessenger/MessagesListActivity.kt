@@ -114,7 +114,7 @@ class MessagesListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_new_message -> {
+            R.id.menu_find_users -> {
                 launchComposeMessage()
                 }
             R.id.menu_sign_out -> {
