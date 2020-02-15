@@ -22,7 +22,7 @@ class ChatLogActivity : AppCompatActivity() {
     private val className: String = this.javaClass.simpleName
     private val adapter = GroupAdapter<GroupieViewHolder>()
     private var selectedUser: User? = null
-    private var fromId: String? = null
+    private val myId: String? = FirebaseAuth.getInstance().uid
     private var toId: String? = null
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -31,7 +31,6 @@ class ChatLogActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat_log)
 
         selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
-        fromId = FirebaseAuth.getInstance().uid
         toId = selectedUser?.uid
 
         supportActionBar?.title = selectedUser?.userName
@@ -45,7 +44,7 @@ class ChatLogActivity : AppCompatActivity() {
 
     //also initial list load and also on children added:
     private fun listenForMessages() {
-        val ref = firebaseDatabase.getReference("/user-messages/$fromId/$toId")
+        val ref = firebaseDatabase.getReference("/user-messages/$myId/$toId")
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -53,7 +52,7 @@ class ChatLogActivity : AppCompatActivity() {
                 if(chatMessage != null) {
                     Log.d(className, chatMessage.messageText)
 
-                    if(chatMessage.fromId == FirebaseAuth.getInstance().uid) {
+                    if(chatMessage.fromId == myId) {
                         adapter.add(ChatItemFrom(chatMessage.messageText, MessagesListActivity.currentUser))
                     } else{
                         adapter.add(ChatItemTo(chatMessage.messageText, selectedUser))
@@ -91,12 +90,12 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (messageText.trim().isNotEmpty()) {
 
-            val refMessageListSender = firebaseDatabase.getReference("/user-messages/$fromId/$toId").push() //push == add
-            val refMessageListReceiver = firebaseDatabase.getReference("/user-messages/$toId/$fromId").push() //push == add
-            val refLatestMessageSender = firebaseDatabase.getReference("/latest-messages/$fromId/$toId") //no push == replace
-            val refLatestMessageReceiver = firebaseDatabase.getReference("/latest-messages/$toId/$fromId") //no push == replace
+            val refMessageListSender = firebaseDatabase.getReference("/user-messages/$myId/$toId").push() //push == add
+            val refMessageListReceiver = firebaseDatabase.getReference("/user-messages/$toId/$myId").push() //push == add
+            val refLatestMessageSender = firebaseDatabase.getReference("/latest-messages/$myId/$toId") //no push == replace
+            val refLatestMessageReceiver = firebaseDatabase.getReference("/latest-messages/$toId/$myId") //no push == replace
 
-            val chatMessage = ChatMessage(refMessageListSender.key, messageText, fromId, toId)
+            val chatMessage = ChatMessage(refMessageListSender.key, messageText, myId, toId)
 
             refMessageListSender.setValue(chatMessage)
             refMessageListReceiver.setValue(chatMessage)

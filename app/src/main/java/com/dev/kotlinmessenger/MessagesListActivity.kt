@@ -7,6 +7,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.myId
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -21,12 +23,12 @@ class MessagesListActivity : AppCompatActivity() {
 
     companion object{
         var currentUser: User? = null
+        val firebaseDatabase = FirebaseDatabase.getInstance()
+        val firebaseAuth = FirebaseAuth.getInstance()
+        val myId: String? = firebaseAuth.uid
     }
 
     private val className: String = this.javaClass.simpleName
-    private val firebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
-    private val fromId = firebaseAuth.uid
     private val adapter = GroupAdapter<GroupieViewHolder>()
     private val latestMessagesMap = HashMap<String?, ChatMessage?>()
 
@@ -55,7 +57,7 @@ class MessagesListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val ref = firebaseDatabase.getReference("/latest-messages/$fromId")
+        val ref = firebaseDatabase.getReference("/latest-messages/$myId")
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -91,7 +93,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun fetchCurrentUser() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$fromId")
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$myId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -131,7 +133,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun verifyUserLoggedIn() {
-        if (fromId == null) {
+        if (myId == null) {
             launchRegister()
         }
     }
@@ -156,10 +158,10 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.last_message_textview_message_row.text = chatMessage?.messageText ?: ""
 
-        val partnerId: String? = if (chatMessage?.fromId == FirebaseAuth.getInstance().uid)
+        val partnerId = if (chatMessage?.fromId == myId)
             chatMessage?.toId else chatMessage?.fromId
 
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$partnerId")
+        val ref = firebaseDatabase.getReference("/users/$partnerId")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
