@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger
+package com.dev.kotlinmessenger.helpers
 
 import android.annotation.TargetApi
 import android.content.ContentResolver

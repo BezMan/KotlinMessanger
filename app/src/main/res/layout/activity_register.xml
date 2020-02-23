@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:padding="10dp"
-    tools:context=".RegisterActivity">
+    tools:context=".views.activities.RegisterActivity">
 
     <Button
         android:id="@+id/photo_select_button"

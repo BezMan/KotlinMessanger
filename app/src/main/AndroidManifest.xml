@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".MessagesListActivity">
+        <activity android:name=".views.activities.MessagesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,17 +21,17 @@
         </activity>
 
         <activity
-            android:name=".ComposeMessageActivity"
-            android:parentActivityName=".MessagesListActivity" />
+            android:name=".views.activities.ComposeMessageActivity"
+            android:parentActivityName=".views.activities.MessagesListActivity" />
 
         <activity
-            android:name=".ChatLogActivity"
+            android:name=".views.activities.ChatLogActivity"
             android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".ComposeMessageActivity" />
+            android:parentActivityName=".views.activities.ComposeMessageActivity" />
 
-        <activity android:name=".RegisterActivity" />
+        <activity android:name=".views.activities.RegisterActivity" />
 
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".views.activities.LoginActivity" />
 
     </application>
 

@@ -1,11 +1,14 @@
-package com.dev.kotlinmessenger
+package com.dev.kotlinmessenger.views.activities
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.dev.kotlinmessenger.MessagesListActivity.Companion.firebaseDatabase
-import com.dev.kotlinmessenger.MessagesListActivity.Companion.myId
+import com.dev.kotlinmessenger.R
+import com.dev.kotlinmessenger.model.entities.ChatMessage
+import com.dev.kotlinmessenger.model.entities.User
+import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.myId
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -66,9 +69,19 @@ class ChatLogActivity : AppCompatActivity() {
                     Log.d(className, chatMessage.messageText)
 
                     if(chatMessage.fromId == myId) {
-                        adapter.add(ChatItemFrom(chatMessage.messageText, MessagesListActivity.currentUser))
+                        adapter.add(
+                            ChatItemFrom(
+                                chatMessage.messageText,
+                                MessagesListActivity.currentUser
+                            )
+                        )
                     } else{
-                        adapter.add(ChatItemTo(chatMessage.messageText, selectedUser))
+                        adapter.add(
+                            ChatItemTo(
+                                chatMessage.messageText,
+                                selectedUser
+                            )
+                        )
 
                     }
                     recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
@@ -107,7 +120,12 @@ class ChatLogActivity : AppCompatActivity() {
             val refLatestMessageSender = firebaseDatabase.getReference("/latest-messages/$myId/$toId") //no push == replace
             val refLatestMessageReceiver = firebaseDatabase.getReference("/latest-messages/$toId/$myId") //no push == replace
 
-            val chatMessage = ChatMessage(refMessageListSender.key, messageText, myId, toId)
+            val chatMessage = ChatMessage(
+                refMessageListSender.key,
+                messageText,
+                myId,
+                toId
+            )
 
             refMessageListSender.setValue(chatMessage)
             refMessageListReceiver.setValue(chatMessage)
@@ -133,7 +151,8 @@ class ChatItemFrom(private val messageText: String, private val user: User?): It
         Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
 
-    override fun getLayout() = R.layout.chat_row_item_from
+    override fun getLayout() =
+        R.layout.chat_row_item_from
 }
 
 //adapter 2

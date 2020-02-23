@@ -1,11 +1,13 @@
-package com.dev.kotlinmessenger
+package com.dev.kotlinmessenger.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.dev.kotlinmessenger.MessagesListActivity.Companion.currentUser
-import com.dev.kotlinmessenger.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.kotlinmessenger.R
+import com.dev.kotlinmessenger.model.entities.User
+import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.currentUser
+import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -49,7 +51,11 @@ class ComposeMessageActivity : AppCompatActivity() {
                     Log.d(className, it.toString())
                     val user = it.getValue(User::class.java)
                     if (user?.userName != currentUser?.userName){
-                        adapter.add(UserItem(user))
+                        adapter.add(
+                            UserItem(
+                                user
+                            )
+                        )
                     }
                 }
                 adapter.notifyDataSetChanged()

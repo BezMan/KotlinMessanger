@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger
+package com.dev.kotlinmessenger.views.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -8,6 +8,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.dev.kotlinmessenger.R
+import com.dev.kotlinmessenger.helpers.BitmapResolver
+import com.dev.kotlinmessenger.model.entities.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -104,7 +107,11 @@ class RegisterActivity : AppCompatActivity() {
         val uid = FirebaseAuth.getInstance().uid ?: ""
         val userName = name_edittext_register.text.toString()
 
-        val user = User(uid, userName, profileImageUrl.toString())
+        val user = User(
+            uid,
+            userName,
+            profileImageUrl.toString()
+        )
         val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
 
         ref.setValue(user)
