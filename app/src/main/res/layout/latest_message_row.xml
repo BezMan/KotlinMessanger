@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/username_textview_message_row"
         app:layout_constraintTop_toBottomOf="@+id/username_textview_message_row"
-        tools:text="last_message" />
+        tools:text="latest_message" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

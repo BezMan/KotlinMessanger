@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.kotlinmessenger.R
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.login_activity.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -16,7 +16,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.login_activity)
     }
 
     fun loginClicked(view: View) {

@@ -15,7 +15,7 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.activity_compose_message.*
+import kotlinx.android.synthetic.main.compose_message_activity.*
 import kotlinx.android.synthetic.main.user_row.view.*
 
 class ComposeMessageActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class ComposeMessageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_compose_message)
+        setContentView(R.layout.compose_message_activity)
 
         supportActionBar?.title = "Select User"
 

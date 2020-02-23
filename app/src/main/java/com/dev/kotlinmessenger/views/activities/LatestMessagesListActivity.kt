@@ -18,8 +18,8 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.activity_messages_list.*
-import kotlinx.android.synthetic.main.message_row.view.*
+import kotlinx.android.synthetic.main.latest_message_row.view.*
+import kotlinx.android.synthetic.main.latest_messages_list_activity.*
 
 class MessagesListActivity : AppCompatActivity() {
 
@@ -38,7 +38,7 @@ class MessagesListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_messages_list)
+        setContentView(R.layout.latest_messages_list_activity)
 
         fetchCurrentUser()
 
@@ -116,7 +116,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu, menu)
+        menuInflater.inflate(R.menu.latest_messages_menu, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -161,7 +161,7 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
     var partnerUser: User? = null
 
-    override fun getLayout(): Int = R.layout.message_row
+    override fun getLayout(): Int = R.layout.latest_message_row
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.last_message_textview_message_row.text = chatMessage?.messageText ?: ""

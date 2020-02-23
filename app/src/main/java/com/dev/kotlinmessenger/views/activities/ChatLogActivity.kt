@@ -16,9 +16,9 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.activity_chat_log.*
-import kotlinx.android.synthetic.main.chat_row_item_from.view.*
-import kotlinx.android.synthetic.main.chat_row_item_to.view.*
+import kotlinx.android.synthetic.main.chat_activity.*
+import kotlinx.android.synthetic.main.chat_row_from.view.*
+import kotlinx.android.synthetic.main.chat_row_to.view.*
 
 class ChatLogActivity : AppCompatActivity() {
 
@@ -29,7 +29,7 @@ class ChatLogActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chat_log)
+        setContentView(R.layout.chat_activity)
 
         selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
         toId = selectedUser?.uid
@@ -152,7 +152,7 @@ class ChatItemFrom(private val messageText: String, private val user: User?): It
     }
 
     override fun getLayout() =
-        R.layout.chat_row_item_from
+        R.layout.chat_row_from
 }
 
 //adapter 2
@@ -163,5 +163,5 @@ class ChatItemTo(private val messageText: String, private val user: User?): Item
         Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
 
-    override fun getLayout() = R.layout.chat_row_item_to
+    override fun getLayout() = R.layout.chat_row_to
 }

@@ -14,7 +14,7 @@ import com.dev.kotlinmessenger.model.entities.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.register_activity.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
@@ -25,7 +25,7 @@ class RegisterActivity : AppCompatActivity() {
 //LIFECYCLE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        setContentView(R.layout.register_activity)
     }
 
 
