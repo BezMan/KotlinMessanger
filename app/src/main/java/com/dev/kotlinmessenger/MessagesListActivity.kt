@@ -25,7 +25,7 @@ class MessagesListActivity : AppCompatActivity() {
         var currentUser: User? = null
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
-        val myId: String? = firebaseAuth.uid
+        var myId: String? = null
     }
 
     private val className: String = this.javaClass.simpleName
@@ -93,6 +93,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun fetchCurrentUser() {
+        myId = firebaseAuth.uid
         val ref = FirebaseDatabase.getInstance().getReference("/users/$myId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 

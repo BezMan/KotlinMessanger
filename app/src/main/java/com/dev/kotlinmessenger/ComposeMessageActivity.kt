@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.kotlinmessenger.MessagesListActivity.Companion.currentUser
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.firebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
@@ -41,7 +41,7 @@ class ComposeMessageActivity : AppCompatActivity() {
 
 
     private fun fetchUsers() {
-        val ref = FirebaseDatabase.getInstance().getReference("/users")
+        val ref = firebaseDatabase.getReference("/users")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 //Firebase DB changes
             override fun onDataChange(p0: DataSnapshot) {

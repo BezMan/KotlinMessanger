@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.kotlinmessenger.MessagesListActivity.Companion.myId
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
 import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
@@ -22,9 +22,7 @@ class ChatLogActivity : AppCompatActivity() {
     private val className: String = this.javaClass.simpleName
     private val adapter = GroupAdapter<GroupieViewHolder>()
     private var selectedUser: User? = null
-    private val myId: String? = FirebaseAuth.getInstance().uid
     private var toId: String? = null
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
