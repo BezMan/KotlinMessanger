@@ -12,6 +12,7 @@ import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.views.helpers.DateUtils
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -175,6 +176,7 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
             override fun onDataChange(p0: DataSnapshot) {
                 partnerUser = p0.getValue(User::class.java)
                 viewHolder.itemView.username_textview_message_row.text = partnerUser?.userName
+                viewHolder.itemView.time_latest_message_textview.text = DateUtils.getFormattedTimeLatestMessage(chatMessage?.timeStamp!!)
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
                 Picasso.get().load(partnerUser?.profileImageUrl).into(targetImageView)
