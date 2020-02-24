@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger.views.activities
+package com.dev.silverchat.views.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.dev.kotlinmessenger.R
+import com.dev.silverchat.R
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.login_activity.*
 

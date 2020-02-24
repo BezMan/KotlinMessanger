@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger.model.entities
+package com.dev.silverchat.model.entities
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

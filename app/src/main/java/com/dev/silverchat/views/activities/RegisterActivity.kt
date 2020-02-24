@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger.views.activities
+package com.dev.silverchat.views.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -8,9 +8,9 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.dev.kotlinmessenger.R
-import com.dev.kotlinmessenger.helpers.BitmapResolver
-import com.dev.kotlinmessenger.model.entities.User
+import com.dev.silverchat.R
+import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.helpers.BitmapResolver
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage

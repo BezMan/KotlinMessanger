@@ -1,13 +1,13 @@
-package com.dev.kotlinmessenger.views.activities
+package com.dev.silverchat.views.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.dev.kotlinmessenger.R
-import com.dev.kotlinmessenger.model.entities.User
-import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.currentUser
-import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.silverchat.R
+import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.activities.MessagesListActivity.Companion.currentUser
+import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener

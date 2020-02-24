@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "com.dev.kotlinmessenger"
+        applicationId "com.dev.silverchat"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

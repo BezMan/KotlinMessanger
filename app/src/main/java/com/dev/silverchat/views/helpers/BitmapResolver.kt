@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger.helpers
+package com.dev.silverchat.views.helpers
 
 import android.annotation.TargetApi
 import android.content.ContentResolver

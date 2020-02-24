@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger
+package com.dev.silverchat
 
 import org.junit.Assert.assertEquals
 import org.junit.Test

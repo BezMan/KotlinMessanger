@@ -1,4 +1,4 @@
-package com.dev.kotlinmessenger.views.activities
+package com.dev.silverchat.views.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,11 +7,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
-import com.dev.kotlinmessenger.R
-import com.dev.kotlinmessenger.model.entities.ChatMessage
-import com.dev.kotlinmessenger.model.entities.User
-import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.firebaseDatabase
-import com.dev.kotlinmessenger.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.R
+import com.dev.silverchat.model.entities.ChatMessage
+import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso

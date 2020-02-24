@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dev.kotlinmessenger">
+    package="com.dev.silverchat">
 
     <application
         android:allowBackup="true"
@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name=".views.activities.MessagesListActivity">
+        <activity android:name="com.dev.silverchat.views.activities.MessagesListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,17 +21,17 @@
         </activity>
 
         <activity
-            android:name=".views.activities.ComposeMessageActivity"
-            android:parentActivityName=".views.activities.MessagesListActivity" />
+            android:name="com.dev.silverchat.views.activities.ComposeMessageActivity"
+            android:parentActivityName="com.dev.silverchat.views.activities.MessagesListActivity" />
 
         <activity
-            android:name=".views.activities.ChatLogActivity"
+            android:name="com.dev.silverchat.views.activities.ChatLogActivity"
             android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".views.activities.ComposeMessageActivity" />
+            android:parentActivityName="com.dev.silverchat.views.activities.ComposeMessageActivity" />
 
-        <activity android:name=".views.activities.RegisterActivity" />
+        <activity android:name="com.dev.silverchat.views.activities.RegisterActivity" />
 
-        <activity android:name=".views.activities.LoginActivity" />
+        <activity android:name="com.dev.silverchat.views.activities.LoginActivity" />
 
     </application>
 
