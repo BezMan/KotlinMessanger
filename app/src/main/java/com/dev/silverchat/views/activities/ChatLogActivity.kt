@@ -13,7 +13,6 @@ import com.dev.silverchat.views.helpers.DateUtils.getFormattedTimeChatLog
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -151,8 +150,6 @@ class ChatItemFrom(private val messageText: String, private val timestamp: Long,
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_from.text = messageText
         viewHolder.itemView.time_chat_row_from.text = getFormattedTimeChatLog(timestamp)
-        val targetImageView = viewHolder.itemView.circleimageview_chat_row_from
-        Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
 
     override fun getLayout() =
@@ -164,8 +161,6 @@ class ChatItemTo(private val messageText: String, private val timestamp: Long, p
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_to.text = messageText
         viewHolder.itemView.time_chat_row_to.text = getFormattedTimeChatLog(timestamp)
-        val targetImageView = viewHolder.itemView.circleimageview_chat_row_to
-        Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
 
     override fun getLayout() = R.layout.chat_row_to
