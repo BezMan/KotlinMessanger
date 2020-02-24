@@ -9,6 +9,7 @@ import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.views.helpers.DateUtils.getFormattedTimeChatLog
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -72,6 +73,7 @@ class ChatLogActivity : AppCompatActivity() {
                         adapter.add(
                             ChatItemFrom(
                                 chatMessage.messageText,
+                                chatMessage.timeStamp,
                                 MessagesListActivity.currentUser
                             )
                         )
@@ -79,6 +81,7 @@ class ChatLogActivity : AppCompatActivity() {
                         adapter.add(
                             ChatItemTo(
                                 chatMessage.messageText,
+                                chatMessage.timeStamp,
                                 selectedUser
                             )
                         )
@@ -144,9 +147,10 @@ class ChatLogActivity : AppCompatActivity() {
 // Multiple Adapters for multiple recycler item layouts
 
 //adapter 1
-class ChatItemFrom(private val messageText: String, private val user: User?): Item(){
+class ChatItemFrom(private val messageText: String, private val timestamp: Long, private val user: User?): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_from.text = messageText
+        viewHolder.itemView.time_chat_row_from.text = getFormattedTimeChatLog(timestamp)
         val targetImageView = viewHolder.itemView.circleimageview_chat_row_from
         Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
@@ -156,9 +160,10 @@ class ChatItemFrom(private val messageText: String, private val user: User?): It
 }
 
 //adapter 2
-class ChatItemTo(private val messageText: String, private val user: User?): Item(){
+class ChatItemTo(private val messageText: String, private val timestamp: Long, private val user: User?): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_to.text = messageText
+        viewHolder.itemView.time_chat_row_to.text = getFormattedTimeChatLog(timestamp)
         val targetImageView = viewHolder.itemView.circleimageview_chat_row_to
         Picasso.get().load(user?.profileImageUrl).into(targetImageView)
     }
