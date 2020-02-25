@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/LightGrey"
         tools:listitem="@layout/latest_message_row"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

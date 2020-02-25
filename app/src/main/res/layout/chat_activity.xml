@@ -15,6 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/edittext_input_chat_log"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/chat_row_from"
+        android:background="@color/LightGrey"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginBottom="8dp"/>
 

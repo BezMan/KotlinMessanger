@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#4caf50</color>
     <color name="colorPrimaryDark">#087f23</color>
-    <color name="colorPrimaryLight">#aaFfbb</color>
+    <color name="colorPrimaryLight">#80e27e</color>
 
     <color name="colorSecondary">#7e57c2</color>
     <color name="colorSecondaryDark">#4d2c91</color>
@@ -69,7 +69,7 @@
     <color name="Goldenrod">#DAA520</color>
     <color name="Orchid">#DA70D6</color>
     <color name="Thistle">#D8BFD8</color>
-    <color name="LightGrey">#D3D3D3</color>
+    <color name="LightGrey">#E3E3E3</color>
     <color name="Tan">#D2B48C</color>
     <color name="Chocolate">#D2691E</color>
     <color name="Peru">#CD853F</color>
@@ -95,6 +95,7 @@
     <color name="DarkViolet">#9400D3</color>
     <color name="MediumPurple">#9370DB</color>
     <color name="LightGreen">#90EE90</color>
+    <color name="Mint">#98FB98</color>
     <color name="DarkSeaGreen">#8FBC8F</color>
     <color name="SaddleBrown">#8B4513</color>
     <color name="DarkMagenta">#8B008B</color>

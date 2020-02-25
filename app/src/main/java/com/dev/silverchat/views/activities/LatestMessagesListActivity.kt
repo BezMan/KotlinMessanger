@@ -102,7 +102,7 @@ class MessagesListActivity : AppCompatActivity() {
 
     private fun fetchCurrentUser() {
         myId = firebaseAuth.uid
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$myId")
+        val ref = firebaseDatabase.getReference("/users/$myId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 
             override fun onDataChange(p0: DataSnapshot) {
