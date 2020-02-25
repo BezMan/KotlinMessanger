@@ -22,6 +22,7 @@
         android:layout_marginStart="12dp"
         android:textColor="@android:color/black"
         android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageview_message_row"
         app:layout_constraintTop_toTopOf="@+id/imageview_message_row"
         tools:text="username" />
@@ -42,5 +43,19 @@
         app:layout_constraintTop_toTopOf="@id/username_textview_message_row"
         tools:text="10:59 AM"/>
 
+    <TextView
+        android:id="@+id/unread_count_latest_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/rounded_button"
+        android:gravity="center"
+        android:minWidth="20dp"
+        android:padding="1dp"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/last_message_textview_message_row"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="33" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

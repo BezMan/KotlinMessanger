@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.ChatMessage
+import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
@@ -44,8 +45,18 @@ class MessagesListActivity : AppCompatActivity() {
         fetchCurrentUser()
 
         verifyUserLoggedIn()
+    }
 
+
+
+    override fun onStart() {
+        super.onStart()
         setupList()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        adapter.notifyDataSetChanged()
     }
 
 
@@ -161,6 +172,7 @@ class MessagesListActivity : AppCompatActivity() {
 class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
     var partnerUser: User? = null
+    var unreadMessages: UnreadMessages? = null
 
     override fun getLayout(): Int = R.layout.latest_message_row
 
@@ -180,6 +192,18 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
                 Picasso.get().load(partnerUser?.profileImageUrl).into(targetImageView)
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+        })
+
+        val refUnread = firebaseDatabase.getReference("/unread-messages/$myId/$partnerId")
+        refUnread.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                unreadMessages = p0.getValue(UnreadMessages::class.java)
+                viewHolder.itemView.unread_count_latest_message.text = unreadMessages?.count.toString()
             }
 
             override fun onCancelled(p0: DatabaseError) {

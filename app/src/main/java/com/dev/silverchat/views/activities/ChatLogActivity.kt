@@ -1,11 +1,11 @@
 package com.dev.silverchat.views.activities
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.ChatMessage
+import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
@@ -13,6 +13,7 @@ import com.dev.silverchat.views.helpers.DateUtils.getFormattedTimeChatLog
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
@@ -41,6 +42,19 @@ class ChatLogActivity : AppCompatActivity() {
         listenForMessages()
 
         adjustListToKeyboard()
+
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        resetUnreadMessages()
+    }
+
+
+    private fun resetUnreadMessages() {
+        firebaseDatabase.getReference("/unread-messages/$myId/$toId")
+            .setValue(UnreadMessages(0))
     }
 
 
@@ -66,7 +80,6 @@ class ChatLogActivity : AppCompatActivity() {
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val chatMessage = p0.getValue(ChatMessage::class.java)
                 if(chatMessage != null) {
-                    Log.d(className, chatMessage.messageText)
 
                     if(chatMessage.fromId == myId) {
                         adapter.add(
@@ -135,8 +148,27 @@ class ChatLogActivity : AppCompatActivity() {
             refLatestMessageReceiver.setValue(chatMessage)
 
             edittext_input_chat_log.text.clear()
+
+            incrementUnreadMessagesCount()
+
         }
 
+    }
+
+    private fun incrementUnreadMessagesCount() {
+        val refIncrementUnread = firebaseDatabase.getReference("/unread-messages/$toId/$myId") //no push == replace
+
+        refIncrementUnread.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val unreadMessages = p0.getValue(UnreadMessages::class.java)
+                refIncrementUnread.setValue(UnreadMessages(unreadMessages?.count?.plus(1)))
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+        })
     }
 
 }
