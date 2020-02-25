@@ -6,7 +6,7 @@ import java.util.*
 
 object DateUtils {
 
-    private val fullFormattedTime = SimpleDateFormat("d MMM, h:mm a", Locale.US)
+    private val fullFormattedTime = SimpleDateFormat("d MMM\nh:mm a", Locale.US)
     private val onlyTime = SimpleDateFormat("h:mm a", Locale.US)
     private val onlyDate = SimpleDateFormat("d MMM", Locale.US)
 

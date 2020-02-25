@@ -12,12 +12,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/chat_bubble_from"
-        android:minWidth="60dp"
-        android:minHeight="50dp"
-        android:paddingStart="16dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="16dp"
+        android:minHeight="30dp"
+        android:padding="8dp"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -29,11 +25,12 @@
         android:id="@+id/time_chat_row_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="2dp"
+        android:padding="8dp"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/textview_chat_row_from"
-        tools:text="10:59 AM" />
+        app:layout_constraintBottom_toBottomOf="@id/textview_chat_row_from"
+        app:layout_constraintStart_toEndOf="@id/textview_chat_row_from"
+        app:layout_constraintTop_toTopOf="@id/textview_chat_row_from"
+        tools:text="  24 Feb\n10:59 AM" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
