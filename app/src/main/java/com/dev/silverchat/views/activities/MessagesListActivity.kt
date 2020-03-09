@@ -133,12 +133,21 @@ class MessagesListActivity : AppCompatActivity() {
             R.id.menu_find_users -> {
                 launchComposeMessage()
                 }
+            R.id.menu_settings -> {
+                openSettings()
+                }
             R.id.menu_sign_out -> {
                 firebaseAuth.signOut()
                 launchRegister()
                 }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun openSettings() {
+        val settingsIntent = Intent(this, SettingsActivity::class.java)
+        startActivity(settingsIntent)
+
     }
 
 

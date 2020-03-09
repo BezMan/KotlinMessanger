@@ -40,15 +40,13 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-database-ktx:19.2.1'
-    implementation 'com.google.firebase:firebase-database:19.2.1'
-    implementation 'com.firebaseui:firebase-ui-database:3.2.2'
 
     // more Firebase products:
     // https://firebase.google.com/docs/android/setup#available-libraries
 
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //Groupie is a simple, flexible library for complex RecyclerView layouts
