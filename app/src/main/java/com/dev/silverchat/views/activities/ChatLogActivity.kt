@@ -82,22 +82,9 @@ class ChatLogActivity : AppCompatActivity() {
                 if(chatMessage != null) {
 
                     if(chatMessage.fromId == myId) {
-                        adapter.add(
-                            ChatItemFrom(
-                                chatMessage.messageText,
-                                chatMessage.timeStamp,
-                                MessagesListActivity.currentUser
-                            )
-                        )
+                        adapter.add(ChatItemFrom(chatMessage.messageText, chatMessage.timeStamp))
                     } else{
-                        adapter.add(
-                            ChatItemTo(
-                                chatMessage.messageText,
-                                chatMessage.timeStamp,
-                                selectedUser
-                            )
-                        )
-
+                        adapter.add(ChatItemTo(chatMessage.messageText, chatMessage.timeStamp))
                     }
                     recyclerview_chat_log.scrollToPosition(adapter.itemCount - 1)
                 }
@@ -178,7 +165,7 @@ class ChatLogActivity : AppCompatActivity() {
 // Multiple Adapters for multiple recycler item layouts
 
 //adapter 1
-class ChatItemFrom(private val messageText: String, private val timestamp: Long, private val user: User?): Item(){
+class ChatItemFrom(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_from.text = messageText
         viewHolder.itemView.time_chat_row_from.text = getFormattedTimeChatLog(timestamp)
@@ -189,7 +176,7 @@ class ChatItemFrom(private val messageText: String, private val timestamp: Long,
 }
 
 //adapter 2
-class ChatItemTo(private val messageText: String, private val timestamp: Long, private val user: User?): Item(){
+class ChatItemTo(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_to.text = messageText
         viewHolder.itemView.time_chat_row_to.text = getFormattedTimeChatLog(timestamp)

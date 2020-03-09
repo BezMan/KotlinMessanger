@@ -102,11 +102,7 @@ class MessagesListActivity : AppCompatActivity() {
         latestMessagesMap[p0.key] = chatMessage
         adapter.clear()
         latestMessagesMap.values.forEach {
-            adapter.add(
-                LatestMessageItem(
-                    it
-                )
-            )
+            adapter.add(LatestMessageItem(it))
         }
     }
 

@@ -50,12 +50,8 @@ class ComposeMessageActivity : AppCompatActivity() {
                 p0.children.forEach {
                     Log.d(className, it.toString())
                     val user = it.getValue(User::class.java)
-                    if (user?.userName != currentUser?.userName){
-                        adapter.add(
-                            UserItem(
-                                user
-                            )
-                        )
+                    if (user?.uid != currentUser?.uid){
+                        adapter.add(UserItem(user))
                     }
                 }
                 adapter.notifyDataSetChanged()
