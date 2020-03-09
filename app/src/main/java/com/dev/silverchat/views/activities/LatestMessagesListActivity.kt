@@ -187,7 +187,7 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
                 viewHolder.itemView.time_latest_message_textview.text = DateUtils.getFormattedTimeLatestMessage(chatMessage?.timeStamp!!)
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
-                Picasso.get().load(partnerUser?.profileImageUrl).into(targetImageView)
+                Picasso.get().load(partnerUser?.imageUrl).into(targetImageView)
             }
 
             override fun onCancelled(p0: DatabaseError) {

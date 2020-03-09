@@ -35,6 +35,7 @@ class ComposeMessageActivity : AppCompatActivity() {
             val intent = Intent(this, ChatLogActivity::class.java)
             intent.putExtra(USER_KEY, userItem.user)
             startActivity(intent)
+            finish()
         }
         recyclerview_compose_message.adapter = adapter
 
@@ -78,7 +79,7 @@ class UserItem(val user: User?) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.username_textview_message_row.text = user?.userName
-        Picasso.get().load(user?.profileImageUrl).into(viewHolder.itemView.circleimageview_message_row)
+        Picasso.get().load(user?.imageUrl).into(viewHolder.itemView.circleimageview_message_row)
     }
 }
 
