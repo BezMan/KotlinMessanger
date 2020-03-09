@@ -32,8 +32,15 @@ class SettingsActivity : AppCompatActivity() {
         databaseRoot = FirebaseDatabase.getInstance().reference
         storageRoot = FirebaseStorage.getInstance().reference.child("images")
         initViews()
-        update_settings_button.setOnClickListener { updateSettings() }
         retrieveUserInfo()
+        initClickEvents()
+    }
+
+
+    private fun initClickEvents() {
+        update_settings_button.setOnClickListener {
+            updateSettings()
+        }
         set_profile_image.setOnClickListener {
             val galleryIntent = Intent()
             galleryIntent.action = Intent.ACTION_GET_CONTENT
@@ -74,7 +81,9 @@ class SettingsActivity : AppCompatActivity() {
                                     .child("imageUrl").setValue(uri.toString())
                             }
                     }
-                    .addOnCompleteListener { loadingBar!!.dismiss() }
+                    .addOnCompleteListener {
+                        loadingBar!!.dismiss()
+                    }
             }
         }
     }
@@ -88,8 +97,7 @@ class SettingsActivity : AppCompatActivity() {
         if (TextUtils.isEmpty(setStatus)) {
             Toast.makeText(this, "Please write your status....", Toast.LENGTH_SHORT).show()
         } else {
-            val profileMap =
-                HashMap<String, Any?>()
+            val profileMap = HashMap<String, Any?>()
             profileMap["uid"] = currentUserID
             profileMap["userName"] = setUserName
             profileMap["aboutMe"] = setStatus
