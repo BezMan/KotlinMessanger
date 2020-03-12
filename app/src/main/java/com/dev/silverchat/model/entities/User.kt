@@ -8,7 +8,8 @@ data class User(
     val uid: String = ""
     , val userName: String = ""
     , val imageUrl: String = ""
+    , val timeJoined: String = ""
     , val tokenId: String = ""
-    , val aboutMe: String = "Using SilverChat!"
+    , val aboutMe: String = "using SilverChat!"
     , val isOnline: Boolean = false
 ) : Parcelable

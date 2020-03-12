@@ -33,6 +33,7 @@ class ChatLogActivity : AppCompatActivity() {
     private var toName: String? = null
     private var toImageUrl: String? = null
     private var toAbout: String? = null
+    private var toTimeJoined: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,6 +57,7 @@ class ChatLogActivity : AppCompatActivity() {
         toName = selectedUser?.userName
         toImageUrl = selectedUser?.imageUrl
         toAbout = selectedUser?.aboutMe
+        toTimeJoined = selectedUser?.timeJoined
     }
 
 
