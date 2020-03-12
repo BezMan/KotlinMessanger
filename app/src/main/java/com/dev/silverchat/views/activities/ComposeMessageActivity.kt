@@ -79,7 +79,9 @@ class UserItem(val user: User?) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.username_textview_message_row.text = user?.userName
-        Picasso.get().load(user?.imageUrl).into(viewHolder.itemView.circleimageview_message_row)
+        if(!user?.imageUrl.isNullOrEmpty()) {
+            Picasso.get().load(user?.imageUrl).into(viewHolder.itemView.circleimageview_message_row)
+        }
     }
 }
 

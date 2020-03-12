@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:id="@+id/chat_toolbar">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/custom_profile_image"

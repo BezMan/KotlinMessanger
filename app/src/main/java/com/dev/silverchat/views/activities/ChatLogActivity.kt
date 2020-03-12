@@ -2,6 +2,9 @@ package com.dev.silverchat.views.activities
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.ChatMessage
@@ -10,7 +13,6 @@ import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
 import com.dev.silverchat.views.helpers.DateUtils
-import com.dev.silverchat.views.helpers.DateUtils.getFormattedTimeChatLog
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -67,17 +69,40 @@ class ChatLogActivity : AppCompatActivity() {
         actionBar?.setDisplayShowCustomEnabled(true)
         val actionBarView = layoutInflater.inflate(R.layout.custom_chat_bar, null)
         actionBar?.customView = actionBarView
+        chat_toolbar.setOnClickListener {
+            openFriendInfoDialog()
+        }
 
         custom_profile_name.text = toName
         Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(custom_profile_image)
         displayLastSeen()
     }
 
+    private fun openFriendInfoDialog() {
+        val builder = AlertDialog.Builder(this)
+        val inflater = layoutInflater
+//        builder.setTitle(toName)
+        val dialogLayout = inflater.inflate(R.layout.chat_info_dialog, null)
+        val chatInfoImage  = dialogLayout.findViewById<ImageView>(R.id.chat_info_image)
+        val chatInfoName  = dialogLayout.findViewById<TextView>(R.id.chat_info_name)
+        val chatInfoAbout  = dialogLayout.findViewById<TextView>(R.id.chat_info_about)
+        val chatInfoDateJoined  = dialogLayout.findViewById<TextView>(R.id.chat_info_time_joined)
+
+        val formattedTimeJoined = DateUtils.getFormattedTimeChatLog(toTimeJoined?.toLong()!!)
+
+        chatInfoName.text = toName
+        chatInfoAbout.text = toAbout
+        chatInfoDateJoined.text = "Joined: $formattedTimeJoined"
+        Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(chatInfoImage)
+        builder.setView(dialogLayout)
+        builder.show()
+    }
+
     private fun displayLastSeen() {
         firebaseDatabase.reference.child("users").child(toId!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.hasChild("online")) {
+                    if (dataSnapshot.hasChild("online") && dataSnapshot.hasChild("last_seen")) {
                         val isOnline= dataSnapshot.child("online").value
                         val lastSeen = dataSnapshot.child("last_seen").value.toString()
 
@@ -218,7 +243,7 @@ class ChatLogActivity : AppCompatActivity() {
 class ChatItemFrom(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_from.text = messageText
-        viewHolder.itemView.time_chat_row_from.text = getFormattedTimeChatLog(timestamp)
+        viewHolder.itemView.time_chat_row_from.text = DateUtils.getFormattedTimeChatLog(timestamp)
     }
 
     override fun getLayout() =
@@ -229,7 +254,7 @@ class ChatItemFrom(private val messageText: String, private val timestamp: Long)
 class ChatItemTo(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_to.text = messageText
-        viewHolder.itemView.time_chat_row_to.text = getFormattedTimeChatLog(timestamp)
+        viewHolder.itemView.time_chat_row_to.text = DateUtils.getFormattedTimeChatLog(timestamp)
     }
 
     override fun getLayout() = R.layout.chat_row_to
