@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.dev.silverchat.R
@@ -54,9 +55,10 @@ class MessagesListActivity : AppCompatActivity() {
         setupList()
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        adapter.notifyDataSetChanged()
+
+    override fun onBackPressed() {
+        //dont destroy, for fast return to app.
+        moveTaskToBack(true)
     }
 
 
@@ -208,7 +210,10 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
             override fun onDataChange(p0: DataSnapshot) {
                 unreadMessages = p0.getValue(UnreadMessages::class.java)
-                viewHolder.itemView.unread_count_latest_message.text = unreadMessages?.count.toString()
+                if (unreadMessages?.count != 0) {
+                    viewHolder.itemView.unread_count_latest_message.visibility = View.VISIBLE
+                    viewHolder.itemView.unread_count_latest_message.text = unreadMessages?.count.toString()
+                }
             }
 
             override fun onCancelled(p0: DatabaseError) {
