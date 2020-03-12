@@ -9,17 +9,20 @@ import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.views.helpers.DateUtils
 import com.dev.silverchat.views.helpers.DateUtils.getFormattedTimeChatLog
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
 import kotlinx.android.synthetic.main.chat_activity.*
 import kotlinx.android.synthetic.main.chat_row_from.view.*
 import kotlinx.android.synthetic.main.chat_row_to.view.*
+import kotlinx.android.synthetic.main.custom_chat_bar.*
 
 class ChatLogActivity : AppCompatActivity() {
 
@@ -27,15 +30,17 @@ class ChatLogActivity : AppCompatActivity() {
     private val adapter = GroupAdapter<GroupieViewHolder>()
     private var selectedUser: User? = null
     private var toId: String? = null
+    private var toName: String? = null
+    private var toImageUrl: String? = null
+    private var toAbout: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.chat_activity)
 
-        selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
-        toId = selectedUser?.uid
+        getUserInfo()
 
-        supportActionBar?.title = selectedUser?.userName
+        initViews()
 
         recyclerview_chat_log.adapter = adapter
 
@@ -44,6 +49,49 @@ class ChatLogActivity : AppCompatActivity() {
         adjustListToKeyboard()
 
     }
+
+    private fun getUserInfo() {
+        selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
+        toId = selectedUser?.uid
+        toName = selectedUser?.userName
+        toImageUrl = selectedUser?.imageUrl
+        toAbout = selectedUser?.aboutMe
+    }
+
+
+    private fun initViews() {
+        //ACTIONBAR views//
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        val actionBarView = layoutInflater.inflate(R.layout.custom_chat_bar, null)
+        actionBar?.customView = actionBarView
+
+        custom_profile_name.text = toName
+        Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(custom_profile_image)
+        displayLastSeen()
+    }
+
+    private fun displayLastSeen() {
+        firebaseDatabase.reference.child("users").child(toId!!)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.hasChild("online")) {
+                        val isOnline= dataSnapshot.child("online").value
+                        val lastSeen = dataSnapshot.child("last_seen").value.toString()
+
+                        val formattedLastSeen = DateUtils.getFormattedTimeLatestMessage(lastSeen.toLong())
+                        if (isOnline == true) {
+                            custom_user_last_seen.text = "online"
+                        } else {
+                            custom_user_last_seen.text = "Last Seen: $formattedLastSeen"
+                        }
+                    }
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {}
+            })
+    }
+
 
 
     override fun onPause() {
