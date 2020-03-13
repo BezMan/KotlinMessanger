@@ -40,7 +40,9 @@ private fun updateUserOnline(isOnline: Boolean) {
     onlineStateMap["last_seen"] = System.currentTimeMillis().toString()
     onlineStateMap["online"] = isOnline
     val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
-    FirebaseDatabase.getInstance().reference.child("users").child(currentUserID!!)
-        .updateChildren(onlineStateMap)
+    if(!currentUserID.isNullOrEmpty()) {
+        FirebaseDatabase.getInstance().reference.child("users").child(currentUserID)
+            .updateChildren(onlineStateMap)
+    }
 }
 

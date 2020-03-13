@@ -14,7 +14,9 @@
         tools:ignore="GoogleAppIndexingWarning">
 
 
-        <activity android:name="com.dev.silverchat.views.activities.MessagesListActivity">
+        <activity
+            android:name="com.dev.silverchat.views.activities.MessagesListActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -23,26 +25,32 @@
 
         <activity
             android:name=".views.activities.SettingsActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".views.activities.MessagesListActivity" />
+            android:parentActivityName=".views.activities.MessagesListActivity"
+            android:windowSoftInputMode="stateHidden" />
 
-<!-- Crop Image Library -->
+        <!-- Crop Image Library -->
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:theme="@style/Base.Theme.AppCompat"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="com.dev.silverchat.views.activities.ComposeMessageActivity"
-            android:parentActivityName="com.dev.silverchat.views.activities.MessagesListActivity" />
+            android:parentActivityName="com.dev.silverchat.views.activities.MessagesListActivity"
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="com.dev.silverchat.views.activities.ChatLogActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:parentActivityName="com.dev.silverchat.views.activities.ComposeMessageActivity" />
+            android:parentActivityName="com.dev.silverchat.views.activities.ComposeMessageActivity"
+            android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name="com.dev.silverchat.views.activities.RegisterActivity" />
+        <activity
+            android:name="com.dev.silverchat.views.activities.RegisterActivity"
+            android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name="com.dev.silverchat.views.activities.LoginActivity" />
+        <activity
+            android:name="com.dev.silverchat.views.activities.LoginActivity"
+            android:windowSoftInputMode="stateHidden" />
 
     </application>
 
