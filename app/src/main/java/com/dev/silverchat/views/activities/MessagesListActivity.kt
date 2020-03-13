@@ -50,6 +50,10 @@ class MessagesListActivity : AppCompatActivity() {
         verifyUserLoggedIn()
     }
 
+    override fun onStart() {
+        super.onStart()
+        setupList()
+    }
 
     override fun onBackPressed() {
         //dont destroy, for fast return to app.
@@ -249,7 +253,7 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
 
             override fun onDataChange(p0: DataSnapshot) {
                 unreadMessages = p0.getValue(UnreadMessages::class.java)
-                if (unreadMessages?.count != 0) {
+                if (unreadMessages?.count != 0 && unreadMessages != null) {
                     viewHolder.itemView.unread_count_latest_message.visibility = View.VISIBLE
                     viewHolder.itemView.unread_count_latest_message.text = unreadMessages?.count.toString()
                 }

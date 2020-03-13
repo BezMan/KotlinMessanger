@@ -225,7 +225,11 @@ class ChatLogActivity : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val unreadMessages = p0.getValue(UnreadMessages::class.java)
-                refIncrementUnread.setValue(UnreadMessages(unreadMessages?.count?.plus(1)))
+                if (unreadMessages == null) {
+                    refIncrementUnread.setValue(UnreadMessages(0))
+                } else {
+                    refIncrementUnread.setValue(UnreadMessages(unreadMessages.count?.plus(1)))
+                }
             }
 
             override fun onCancelled(p0: DatabaseError) {
