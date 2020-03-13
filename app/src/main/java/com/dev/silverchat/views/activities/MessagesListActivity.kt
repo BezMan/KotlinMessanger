@@ -43,8 +43,6 @@ class MessagesListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.latest_messages_list_activity)
 
-        fetchCurrentUser()
-
         verifyUserLoggedIn()
     }
 
@@ -110,7 +108,6 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun fetchCurrentUser() {
-        myId = firebaseAuth.uid
         val ref = firebaseDatabase.getReference("/users/$myId")
         ref.addListenerForSingleValueEvent(object: ValueEventListener{
 
@@ -140,7 +137,7 @@ class MessagesListActivity : AppCompatActivity() {
                 }
             R.id.menu_sign_out -> {
                 firebaseAuth.signOut()
-                launchRegister()
+                launchAuthActivity()
                 }
         }
         return super.onOptionsItemSelected(item)
@@ -160,15 +157,19 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     private fun verifyUserLoggedIn() {
+        myId = firebaseAuth.uid
         if (myId == null) {
-            launchRegister()
+            launchAuthActivity()
+        }else{
+            fetchCurrentUser()
         }
     }
 
-    private fun launchRegister() {
-        val registerIntent = Intent(this, RegisterActivity::class.java)
-        registerIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(registerIntent)
+    private fun launchAuthActivity() {
+        val authIntent = Intent(this, AuthActivity::class.java)
+        authIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(authIntent)
+        finish()
     }
 
 

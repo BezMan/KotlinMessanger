@@ -52,6 +52,10 @@
             android:name="com.dev.silverchat.views.activities.LoginActivity"
             android:windowSoftInputMode="stateHidden" />
 
+        <activity
+            android:name="com.dev.silverchat.views.activities.AuthActivity"
+            android:windowSoftInputMode="stateHidden" />
+
     </application>
 
 </manifest>

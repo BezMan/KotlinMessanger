@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class User(
     val uid: String = ""
-    , val userName: String = ""
-    , val imageUrl: String = ""
+    , val userName: String? = ""
     , val timeJoined: String = ""
+    , val imageUrl: String? = ""
     , val tokenId: String = ""
     , val aboutMe: String = "using SilverChat!"
-    , val isOnline: Boolean = false
+    , val isOnline: Boolean = true
 ) : Parcelable

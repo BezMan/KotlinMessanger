@@ -124,7 +124,9 @@ class SettingsActivity : AppCompatActivity() {
                         val retrieveProfileImage = dataSnapshot.child("imageUrl").value.toString()
                         set_user_name.setText(retrieveUserName)
                         set_profile_status.setText(retrievesStatus)
-                        Picasso.get().load(retrieveProfileImage).into(set_profile_image)
+                        if (retrieveProfileImage.isNotEmpty()) {
+                            Picasso.get().load(retrieveProfileImage).into(set_profile_image)
+                        }
                     } else if (dataSnapshot.exists() && dataSnapshot.hasChild("userName")) {
                         val retrieveUserName = dataSnapshot.child("userName").value.toString()
                         val retrievesStatus = dataSnapshot.child("aboutMe").value.toString()
