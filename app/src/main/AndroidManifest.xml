@@ -44,18 +44,6 @@
             android:parentActivityName="com.dev.silverchat.views.activities.ComposeMessageActivity"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity
-            android:name="com.dev.silverchat.views.activities.RegisterActivity"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name="com.dev.silverchat.views.activities.LoginActivity"
-            android:windowSoftInputMode="stateHidden" />
-
-        <activity
-            android:name="com.dev.silverchat.views.activities.AuthActivity"
-            android:windowSoftInputMode="stateHidden" />
-
     </application>
 
 </manifest>

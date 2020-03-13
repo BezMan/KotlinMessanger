@@ -1,5 +1,6 @@
 package com.dev.silverchat.views.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
 import com.dev.silverchat.views.helpers.DateUtils
+import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
@@ -28,6 +30,7 @@ class MessagesListActivity : AppCompatActivity() {
 
 
     companion object{
+        const val REQUEST_CODE_SIGN_IN = 111
         var currentUser: User? = null
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
@@ -44,13 +47,6 @@ class MessagesListActivity : AppCompatActivity() {
         setContentView(R.layout.latest_messages_list_activity)
 
         verifyUserLoggedIn()
-    }
-
-
-
-    override fun onStart() {
-        super.onStart()
-        setupList()
     }
 
 
@@ -137,7 +133,7 @@ class MessagesListActivity : AppCompatActivity() {
                 }
             R.id.menu_sign_out -> {
                 firebaseAuth.signOut()
-                launchAuthActivity()
+                openAuthUI()
                 }
         }
         return super.onOptionsItemSelected(item)
@@ -159,17 +155,57 @@ class MessagesListActivity : AppCompatActivity() {
     private fun verifyUserLoggedIn() {
         myId = firebaseAuth.uid
         if (myId == null) {
-            launchAuthActivity()
+            openAuthUI()
         }else{
             fetchCurrentUser()
+            setupList()
         }
     }
 
-    private fun launchAuthActivity() {
-        val authIntent = Intent(this, AuthActivity::class.java)
-        authIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(authIntent)
-        finish()
+    private fun openAuthUI() {
+        // Choose authentication providers
+        val providers: List<AuthUI.IdpConfig> = listOf(
+            AuthUI.IdpConfig.EmailBuilder().build()
+            , AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+
+// Create and launch sign-in intent
+        startActivityForResult(
+            AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .build(),
+            REQUEST_CODE_SIGN_IN
+        )
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_SIGN_IN) {
+            if (resultCode == Activity.RESULT_OK) { // Successfully signed in
+                val user = firebaseAuth.currentUser
+                if (user != null) {
+                    fetchCurrentUser()
+                    setupList()
+                    saveUserInDatabase(user.uid, user.displayName)
+                }
+
+            } else {
+                finish()
+                // Sign in failed. If response is null the user canceled the
+// sign-in flow using the back button. Otherwise check
+// response.getError().getErrorCode() and handle the error.
+// ...
+            }
+        }
+    }
+
+
+    private fun saveUserInDatabase(uid: String, userName: String?) {
+        val user = User(uid, userName, System.currentTimeMillis().toString())
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        ref.setValue(user)
     }
 
 
