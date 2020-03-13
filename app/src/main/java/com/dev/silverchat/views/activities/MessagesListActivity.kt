@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.dev.silverchat.MyApplication
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
@@ -132,6 +133,7 @@ class MessagesListActivity : AppCompatActivity() {
                 openSettings()
                 }
             R.id.menu_sign_out -> {
+                MyApplication.updateUserOnline(false)
                 firebaseAuth.signOut()
                 openAuthUI()
                 }
@@ -235,7 +237,7 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
                 viewHolder.itemView.time_latest_message_textview.text = DateUtils.getFormattedTimeLatestMessage(chatMessage?.timeStamp!!)
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
-                Picasso.get().load(partnerUser?.imageUrl).into(targetImageView)
+                Picasso.get().load(partnerUser?.imageUrl).placeholder(R.drawable.ic_face_profile).into(targetImageView)
             }
 
             override fun onCancelled(p0: DatabaseError) {

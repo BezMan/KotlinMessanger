@@ -72,7 +72,6 @@ class ChatLogActivity : AppCompatActivity() {
         chat_toolbar.setOnClickListener {
             openFriendInfoDialog()
         }
-
         custom_profile_name.text = toName
         Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(custom_profile_image)
         displayLastSeen()
@@ -93,7 +92,9 @@ class ChatLogActivity : AppCompatActivity() {
         chatInfoName.text = toName
         chatInfoAbout.text = toAbout
         chatInfoDateJoined.text = "Joined: $formattedTimeJoined"
-        Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(chatInfoImage)
+        if(!toImageUrl.isNullOrEmpty()) {
+            Picasso.get().load(toImageUrl).into(chatInfoImage)
+        }
         builder.setView(dialogLayout)
         builder.show()
     }

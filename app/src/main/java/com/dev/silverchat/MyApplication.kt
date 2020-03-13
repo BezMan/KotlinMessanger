@@ -15,6 +15,18 @@ class MyApplication : Application(), LifecycleObserver {
         fun isInForeground(): Boolean {
             return ProcessLifecycleOwner.get().lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)
         }
+
+        fun updateUserOnline(isOnline: Boolean) {
+            val onlineStateMap = HashMap<String, Any>()
+            onlineStateMap["last_seen"] = System.currentTimeMillis().toString()
+            onlineStateMap["online"] = isOnline
+            val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
+            if(!currentUserID.isNullOrEmpty()) {
+                FirebaseDatabase.getInstance().reference.child("users").child(currentUserID)
+                    .updateChildren(onlineStateMap)
+            }
+        }
+
     }
 
     override fun onCreate() {
@@ -35,14 +47,4 @@ class MyApplication : Application(), LifecycleObserver {
 
 }
 
-private fun updateUserOnline(isOnline: Boolean) {
-    val onlineStateMap = HashMap<String, Any>()
-    onlineStateMap["last_seen"] = System.currentTimeMillis().toString()
-    onlineStateMap["online"] = isOnline
-    val currentUserID = FirebaseAuth.getInstance().currentUser?.uid
-    if(!currentUserID.isNullOrEmpty()) {
-        FirebaseDatabase.getInstance().reference.child("users").child(currentUserID)
-            .updateChildren(onlineStateMap)
-    }
-}
 
