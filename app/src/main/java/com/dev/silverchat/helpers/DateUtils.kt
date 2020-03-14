@@ -1,4 +1,4 @@
-package com.dev.silverchat.views.helpers
+package com.dev.silverchat.helpers
 
 import android.text.format.DateUtils
 import java.text.SimpleDateFormat

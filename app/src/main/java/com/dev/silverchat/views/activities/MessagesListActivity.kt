@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.dev.silverchat.MyApplication
 import com.dev.silverchat.R
+import com.dev.silverchat.helpers.DateUtils
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
-import com.dev.silverchat.views.helpers.DateUtils
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

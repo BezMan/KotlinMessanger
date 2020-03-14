@@ -1,4 +1,4 @@
-package com.dev.silverchat.views.helpers
+package com.dev.silverchat.helpers
 
 import android.annotation.TargetApi
 import android.content.ContentResolver

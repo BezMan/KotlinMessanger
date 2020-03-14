@@ -7,12 +7,12 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
+import com.dev.silverchat.helpers.DateUtils
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
-import com.dev.silverchat.views.helpers.DateUtils
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
