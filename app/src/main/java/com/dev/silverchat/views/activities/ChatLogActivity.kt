@@ -34,7 +34,7 @@ class ChatLogActivity : AppCompatActivity() {
     private var toId: String? = null
     private var toName: String? = null
     private var toImageUrl: String? = null
-    private var toAbout: String? = null
+    private var toStatusAbout: String? = null
     private var toTimeJoined: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,8 +44,6 @@ class ChatLogActivity : AppCompatActivity() {
         getUserInfo()
 
         initViews()
-
-        recyclerview_chat_log.adapter = adapter
 
         listenForMessages()
 
@@ -58,7 +56,7 @@ class ChatLogActivity : AppCompatActivity() {
         toId = selectedUser?.uid
         toName = selectedUser?.userName
         toImageUrl = selectedUser?.imageUrl
-        toAbout = selectedUser?.aboutMe
+        toStatusAbout = selectedUser?.statusText
         toTimeJoined = selectedUser?.timeJoined
     }
 
@@ -75,28 +73,35 @@ class ChatLogActivity : AppCompatActivity() {
         custom_profile_name.text = toName
         Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(custom_profile_image)
         displayLastSeen()
+
+        //RECYCLER views//
+        recyclerview_chat_log.adapter = adapter
     }
 
     private fun openFriendInfoDialog() {
-        val builder = AlertDialog.Builder(this)
+        val dialog = AlertDialog.Builder(this).create()
         val inflater = layoutInflater
 //        builder.setTitle(toName)
-        val dialogLayout = inflater.inflate(R.layout.chat_info_dialog, null)
-        val chatInfoImage  = dialogLayout.findViewById<ImageView>(R.id.chat_info_image)
-        val chatInfoName  = dialogLayout.findViewById<TextView>(R.id.chat_info_name)
-        val chatInfoAbout  = dialogLayout.findViewById<TextView>(R.id.chat_info_about)
-        val chatInfoDateJoined  = dialogLayout.findViewById<TextView>(R.id.chat_info_time_joined)
+        val layoutInfoDialog = inflater.inflate(R.layout.chat_info_dialog, null)
+        val chatInfoImage  = layoutInfoDialog.findViewById<ImageView>(R.id.chat_info_image)
+        val chatInfoName  = layoutInfoDialog.findViewById<TextView>(R.id.chat_info_name)
+        val chatInfoAbout  = layoutInfoDialog.findViewById<TextView>(R.id.chat_info_status_about)
+        val chatInfoDateJoined  = layoutInfoDialog.findViewById<TextView>(R.id.chat_info_time_joined)
 
         val formattedTimeJoined = DateUtils.getFormattedTimeChatLog(toTimeJoined?.toLong()!!)
 
         chatInfoName.text = toName
-        chatInfoAbout.text = toAbout
+        chatInfoAbout.text = toStatusAbout
         chatInfoDateJoined.text = "Joined: $formattedTimeJoined"
         if(!toImageUrl.isNullOrEmpty()) {
             Picasso.get().load(toImageUrl).into(chatInfoImage)
         }
-        builder.setView(dialogLayout)
-        builder.show()
+        dialog.setView(layoutInfoDialog)
+        dialog.show()
+
+        layoutInfoDialog.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun displayLastSeen() {
@@ -134,7 +139,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
 
-    /** pushes up recycler view when softkeyboard popups up */
+    /** pushes up recycler view when softkeyboard pops up */
     private fun adjustListToKeyboard() {
         recyclerview_chat_log.addOnLayoutChangeListener { view, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom ->
             if (bottom < oldBottom) {
@@ -244,18 +249,17 @@ class ChatLogActivity : AppCompatActivity() {
 
 // Multiple Adapters for multiple recycler item layouts
 
-//adapter 1
+//adapter 1//
 class ChatItemFrom(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_from.text = messageText
         viewHolder.itemView.time_chat_row_from.text = DateUtils.getFormattedTimeChatLog(timestamp)
     }
 
-    override fun getLayout() =
-        R.layout.chat_row_from
+    override fun getLayout() = R.layout.chat_row_from
 }
 
-//adapter 2
+//adapter 2//
 class ChatItemTo(private val messageText: String, private val timestamp: Long): Item(){
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.textview_chat_row_to.text = messageText

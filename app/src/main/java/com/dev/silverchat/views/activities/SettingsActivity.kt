@@ -100,7 +100,7 @@ class SettingsActivity : AppCompatActivity() {
             val profileMap = HashMap<String, Any?>()
             profileMap["uid"] = currentUserID
             profileMap["userName"] = setUserName
-            profileMap["aboutMe"] = setStatus
+            profileMap["statusAbout"] = setStatus
             databaseRoot!!.child("users").child(currentUserID!!).updateChildren(profileMap)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
@@ -118,20 +118,16 @@ class SettingsActivity : AppCompatActivity() {
         databaseRoot!!.child("users").child(currentUserID!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists() && dataSnapshot.hasChild("userName") && dataSnapshot.hasChild("imageUrl")) {
-                        val retrieveUserName = dataSnapshot.child("userName").value.toString()
-                        val retrievesStatus = dataSnapshot.child("aboutMe").value.toString()
-                        val retrieveProfileImage = dataSnapshot.child("imageUrl").value.toString()
-                        set_user_name.setText(retrieveUserName)
-                        set_profile_status.setText(retrievesStatus)
-                        Picasso.get().load(retrieveProfileImage).placeholder(R.drawable.ic_face_profile).into(set_profile_image)
-                    } else if (dataSnapshot.exists() && dataSnapshot.hasChild("userName")) {
-                        val retrieveUserName = dataSnapshot.child("userName").value.toString()
-                        val retrievesStatus = dataSnapshot.child("aboutMe").value.toString()
-                        set_user_name.setText(retrieveUserName)
-                        set_profile_status.setText(retrievesStatus)
-                    } else {
-                        Toast.makeText(this@SettingsActivity, "Please set & update your profile information...", Toast.LENGTH_SHORT).show()
+                    if (dataSnapshot.exists()) {
+                        if (dataSnapshot.hasChild("userName")) {
+                            set_user_name.setText(dataSnapshot.child("userName").value.toString())
+                        }
+                        if (dataSnapshot.hasChild("imageUrl")) {
+                            Picasso.get().load(dataSnapshot.child("imageUrl").value.toString()).placeholder(R.drawable.ic_face_profile).into(set_profile_image)
+                        }
+                        if (dataSnapshot.hasChild("statusAbout")) {
+                            set_profile_status.setText(dataSnapshot.child("statusAbout").value.toString())
+                        }
                     }
                 }
 

@@ -10,6 +10,6 @@ data class User(
     , val timeJoined: String = ""
     , val imageUrl: String? = ""
     , val tokenId: String = ""
-    , val aboutMe: String = "using SilverChat!"
+    , val statusText: String = "using SilverChat!"
     , val isOnline: Boolean = true
 ) : Parcelable
