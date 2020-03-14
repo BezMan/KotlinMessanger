@@ -123,7 +123,10 @@ class SettingsActivity : AppCompatActivity() {
                             set_user_name.setText(dataSnapshot.child("userName").value.toString())
                         }
                         if (dataSnapshot.hasChild("imageUrl")) {
-                            Picasso.get().load(dataSnapshot.child("imageUrl").value.toString()).placeholder(R.drawable.ic_face_profile).into(set_profile_image)
+                            val imageUrl = dataSnapshot.child("imageUrl").value.toString()
+                            if(imageUrl.isNotEmpty()) {
+                                Picasso.get().load(imageUrl).into(set_profile_image)
+                            }
                         }
                         if (dataSnapshot.hasChild("statusAbout")) {
                             set_profile_status.setText(dataSnapshot.child("statusAbout").value.toString())

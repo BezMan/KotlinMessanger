@@ -71,7 +71,9 @@ class ChatLogActivity : AppCompatActivity() {
             openFriendInfoDialog()
         }
         custom_profile_name.text = toName
-        Picasso.get().load(toImageUrl).placeholder(R.drawable.ic_face_profile).into(custom_profile_image)
+        if(!toImageUrl.isNullOrEmpty()){
+            Picasso.get().load(toImageUrl).into(custom_profile_image)
+        }
         displayLastSeen()
 
         //RECYCLER views//
@@ -231,14 +233,13 @@ class ChatLogActivity : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 val unreadMessages = p0.getValue(UnreadMessages::class.java)
                 if (unreadMessages == null) {
-                    refIncrementUnread.setValue(UnreadMessages(0))
+                    refIncrementUnread.setValue(UnreadMessages(1))
                 } else {
                     refIncrementUnread.setValue(UnreadMessages(unreadMessages.count?.plus(1)))
                 }
             }
 
-            override fun onCancelled(p0: DatabaseError) {
-            }
+            override fun onCancelled(p0: DatabaseError) {}
 
         })
     }

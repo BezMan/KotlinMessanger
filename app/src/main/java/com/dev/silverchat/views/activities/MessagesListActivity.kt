@@ -3,7 +3,6 @@ package com.dev.silverchat.views.activities
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -108,21 +107,6 @@ class MessagesListActivity : AppCompatActivity() {
     }
 
 
-    private fun fetchCurrentUser() {
-        val ref = firebaseDatabase.getReference("/users/$myId")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener{
-
-            override fun onDataChange(p0: DataSnapshot) {
-                currentUser = p0.getValue(User::class.java)
-                Log.d(className, currentUser.toString())
-            }
-
-            override fun onCancelled(p0: DatabaseError) {
-            }
-        })
-    }
-
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.latest_messages_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -163,7 +147,6 @@ class MessagesListActivity : AppCompatActivity() {
         if (myId == null) {
             openAuthUI()
         }else{
-            fetchCurrentUser()
             setupList()
         }
     }
@@ -192,7 +175,6 @@ class MessagesListActivity : AppCompatActivity() {
             if (resultCode == Activity.RESULT_OK) { // Successfully signed in
                 val user = firebaseAuth.currentUser
                 if (user != null) {
-                    fetchCurrentUser()
                     setupList()
                     saveUserInDatabase(user.uid, user.displayName)
                 }
@@ -241,7 +223,9 @@ class LatestMessageItem(private val chatMessage: ChatMessage?) : Item(){
                 viewHolder.itemView.time_latest_message_textview.text = DateUtils.getFormattedTimeLatestMessage(chatMessage?.timeStamp!!)
 
                 val targetImageView = viewHolder.itemView.imageview_message_row
-                Picasso.get().load(partnerUser?.imageUrl).placeholder(R.drawable.ic_face_profile).into(targetImageView)
+                if(!partnerUser?.imageUrl.isNullOrEmpty()) {
+                    Picasso.get().load(partnerUser?.imageUrl).into(targetImageView)
+                }
             }
 
             override fun onCancelled(p0: DatabaseError) {

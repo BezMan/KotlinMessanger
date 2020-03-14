@@ -12,8 +12,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center"
-        app:civ_border_width="2dp"
-        tools:src="@android:drawable/btn_dialog" />
+        app:civ_border_width="1dp"
+        android:src="@drawable/ic_face_profile" />
 
     <TextView
         android:id="@+id/username_textview_message_row"

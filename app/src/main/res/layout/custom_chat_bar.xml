@@ -14,7 +14,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="10dp"
         android:cropToPadding="true"
-        tools:src="@drawable/ic_face_profile" />
+        android:src="@drawable/ic_face_profile" />
 
     <TextView
         android:id="@+id/custom_profile_name"

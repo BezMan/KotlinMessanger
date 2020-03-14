@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.User
-import com.dev.silverchat.views.activities.MessagesListActivity.Companion.currentUser
 import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
+import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -51,7 +51,7 @@ class ComposeMessageActivity : AppCompatActivity() {
                 p0.children.forEach {
                     Log.d(className, it.toString())
                     val user = it.getValue(User::class.java)
-                    if (user?.uid != currentUser?.uid){
+                    if (user?.uid != myId){
                         adapter.add(UserItem(user))
                     }
                 }
@@ -79,7 +79,9 @@ class UserItem(val user: User?) : Item() {
 
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
         viewHolder.itemView.username_textview_message_row.text = user?.userName
-        Picasso.get().load(user?.imageUrl).placeholder(R.drawable.ic_face_profile).into(viewHolder.itemView.circleimageview_message_row)
+        if(!user?.imageUrl.isNullOrEmpty()) {
+            Picasso.get().load(user?.imageUrl).into(viewHolder.itemView.circleimageview_message_row)
+        }
     }
 }
 
