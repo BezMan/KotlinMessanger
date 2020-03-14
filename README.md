@@ -27,6 +27,10 @@ Picasso - ImageView loading & caching.
 - Group messaging
 
 
+# Setup
+- in order to run the app, you'll need to import your own google-services.json through Firebase console.
+- once the app runs, register a user (a fake address will work as well).
+
 
 
 
