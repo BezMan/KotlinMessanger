@@ -14,6 +14,8 @@ import com.dev.silverchat.helpers.DateUtils
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.activities.MainListActivity.Companion.UNREAD_MESSAGES
+import com.dev.silverchat.views.activities.MainListActivity.Companion.USERS
 import com.dev.silverchat.views.activities.MainListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MainListActivity.Companion.myId
 import com.firebase.ui.auth.AuthUI
@@ -31,10 +33,14 @@ class MainListActivity : AppCompatActivity() {
 
     companion object{
         const val REQUEST_CODE_SIGN_IN = 111
-        var currentUser: User? = null
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val firebaseAuth = FirebaseAuth.getInstance()
         var myId: String? = null
+
+        const val LATEST_MESSAGES = "latest-messages"
+        const val UNREAD_MESSAGES = "unread-messages"
+        const val USER_MESSAGES = "user-messages"
+        const val USERS = "users"
     }
 
     private val className: String = this.javaClass.simpleName
@@ -72,7 +78,7 @@ class MainListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val ref = firebaseDatabase.getReference("/latest-messages/$myId")
+        val ref = firebaseDatabase.getReference("/$LATEST_MESSAGES/$myId")
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -192,7 +198,7 @@ class MainListActivity : AppCompatActivity() {
 
     private fun saveUserInDatabase(uid: String, userName: String?) {
         val user = User(uid, userName, System.currentTimeMillis().toString())
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val ref = FirebaseDatabase.getInstance().getReference("/$USERS/$uid")
         ref.setValue(user)
     }
 
@@ -214,7 +220,7 @@ class MainListItem(private val chatMessage: ChatMessage?) : Item(){
         val partnerId = if (chatMessage?.fromId == myId)
             chatMessage?.toId else chatMessage?.fromId
 
-        val ref = firebaseDatabase.getReference("/users/$partnerId")
+        val ref = firebaseDatabase.getReference("/$USERS/$partnerId")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {
@@ -232,7 +238,7 @@ class MainListItem(private val chatMessage: ChatMessage?) : Item(){
             }
         })
 
-        val refUnread = firebaseDatabase.getReference("/unread-messages/$myId/$partnerId")
+        val refUnread = firebaseDatabase.getReference("/$UNREAD_MESSAGES/$myId/$partnerId")
         refUnread.addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onDataChange(p0: DataSnapshot) {

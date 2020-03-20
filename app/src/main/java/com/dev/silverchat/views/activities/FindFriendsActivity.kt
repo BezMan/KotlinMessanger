@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.activities.MainListActivity.Companion.USERS
 import com.dev.silverchat.views.activities.MainListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MainListActivity.Companion.myId
 import com.google.firebase.database.DataSnapshot
@@ -44,7 +45,7 @@ class FindFriendsActivity : AppCompatActivity() {
 
 
     private fun fetchUsers() {
-        val ref = firebaseDatabase.getReference("/users")
+        val ref = firebaseDatabase.getReference("/$USERS")
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
 //Firebase DB changes
             override fun onDataChange(p0: DataSnapshot) {

@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
+import com.dev.silverchat.views.activities.MainListActivity.Companion.USERS
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
@@ -77,7 +78,7 @@ class SettingsActivity : AppCompatActivity() {
                     .addOnSuccessListener {
                         storageRefImage.downloadUrl
                             .addOnSuccessListener { uri ->
-                                databaseRoot!!.child("users").child(currentUserID!!)
+                                databaseRoot!!.child(USERS).child(currentUserID!!)
                                     .child("imageUrl").setValue(uri.toString())
                             }
                     }
@@ -101,7 +102,7 @@ class SettingsActivity : AppCompatActivity() {
             profileMap["uid"] = currentUserID
             profileMap["userName"] = setUserName
             profileMap["statusAbout"] = setStatus
-            databaseRoot!!.child("users").child(currentUserID!!).updateChildren(profileMap)
+            databaseRoot!!.child(USERS).child(currentUserID!!).updateChildren(profileMap)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         sendUserToMainActivity()
@@ -115,7 +116,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun retrieveUserInfo() {
-        databaseRoot!!.child("users").child(currentUserID!!)
+        databaseRoot!!.child(USERS).child(currentUserID!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {

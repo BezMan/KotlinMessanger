@@ -11,6 +11,10 @@ import com.dev.silverchat.helpers.DateUtils
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
+import com.dev.silverchat.views.activities.MainListActivity.Companion.LATEST_MESSAGES
+import com.dev.silverchat.views.activities.MainListActivity.Companion.UNREAD_MESSAGES
+import com.dev.silverchat.views.activities.MainListActivity.Companion.USERS
+import com.dev.silverchat.views.activities.MainListActivity.Companion.USER_MESSAGES
 import com.dev.silverchat.views.activities.MainListActivity.Companion.firebaseDatabase
 import com.dev.silverchat.views.activities.MainListActivity.Companion.myId
 import com.google.firebase.database.ChildEventListener
@@ -107,7 +111,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun displayLastSeen() {
-        firebaseDatabase.reference.child("users").child(toId!!)
+        firebaseDatabase.reference.child(USERS).child(toId!!)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.hasChild("online") && dataSnapshot.hasChild("last_seen")) {
@@ -136,7 +140,7 @@ class ChatLogActivity : AppCompatActivity() {
 
 
     private fun resetUnreadMessages() {
-        firebaseDatabase.getReference("/unread-messages/$myId/$toId")
+        firebaseDatabase.getReference("/$UNREAD_MESSAGES/$myId/$toId")
             .setValue(UnreadMessages(0))
     }
 
@@ -157,7 +161,7 @@ class ChatLogActivity : AppCompatActivity() {
 
     /** populate list on initial load and also on children added */
     private fun listenForMessages() {
-        val ref = firebaseDatabase.getReference("/user-messages/$myId/$toId")
+        val ref = firebaseDatabase.getReference("/$USER_MESSAGES/$myId/$toId")
         ref.addChildEventListener(object: ChildEventListener{
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -200,10 +204,10 @@ class ChatLogActivity : AppCompatActivity() {
 
         if (messageText.trim().isNotEmpty()) {
 
-            val refMessageListSender = firebaseDatabase.getReference("/user-messages/$myId/$toId").push() //push == add
-            val refMessageListReceiver = firebaseDatabase.getReference("/user-messages/$toId/$myId").push() //push == add
-            val refLatestMessageSender = firebaseDatabase.getReference("/latest-messages/$myId/$toId") //no push == replace
-            val refLatestMessageReceiver = firebaseDatabase.getReference("/latest-messages/$toId/$myId") //no push == replace
+            val refMessageListSender = firebaseDatabase.getReference("/$USER_MESSAGES/$myId/$toId").push() //push == add
+            val refMessageListReceiver = firebaseDatabase.getReference("/$USER_MESSAGES/$toId/$myId").push() //push == add
+            val refLatestMessageSender = firebaseDatabase.getReference("/$LATEST_MESSAGES/$myId/$toId") //no push == replace
+            val refLatestMessageReceiver = firebaseDatabase.getReference("/$LATEST_MESSAGES/$toId/$myId") //no push == replace
 
             val chatMessage = ChatMessage(
                 refMessageListSender.key,
@@ -226,7 +230,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun incrementUnreadMessagesCount() {
-        val refIncrementUnread = firebaseDatabase.getReference("/unread-messages/$toId/$myId") //no push == replace
+        val refIncrementUnread = firebaseDatabase.getReference("/$UNREAD_MESSAGES/$toId/$myId") //no push == replace
 
         refIncrementUnread.addListenerForSingleValueEvent(object : ValueEventListener {
 
