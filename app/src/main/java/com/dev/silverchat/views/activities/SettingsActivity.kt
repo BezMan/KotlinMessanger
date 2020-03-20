@@ -139,7 +139,7 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun sendUserToMainActivity() {
-        val mainIntent = Intent(this, MessagesListActivity::class.java)
+        val mainIntent = Intent(this, MainListActivity::class.java)
         mainIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(mainIntent)
         finish()

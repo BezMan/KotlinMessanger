@@ -28,7 +28,7 @@
         tools:text="username" />
 
     <TextView
-        android:id="@+id/last_message_textview_message_row"
+        android:id="@+id/main_list_textview_message_row"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/username_textview_message_row"
@@ -36,7 +36,7 @@
         tools:text="latest_message" />
 
     <TextView
-        android:id="@+id/time_latest_message_textview"
+        android:id="@+id/main_list_time_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
         tools:text="10:59 AM"/>
 
     <TextView
-        android:id="@+id/unread_count_latest_message"
+        android:id="@+id/main_list_unread_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -56,7 +56,7 @@
         android:textSize="12sp"
         android:visibility="invisible"
         tools:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/last_message_textview_message_row"
+        app:layout_constraintBottom_toBottomOf="@id/main_list_textview_message_row"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="33" />
 

@@ -15,7 +15,7 @@
 
 
         <activity
-            android:name="com.dev.silverchat.views.activities.MessagesListActivity"
+            android:name="com.dev.silverchat.views.activities.MainListActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +25,7 @@
 
         <activity
             android:name=".views.activities.SettingsActivity"
-            android:parentActivityName=".views.activities.MessagesListActivity"
+            android:parentActivityName=".views.activities.MainListActivity"
             android:windowSoftInputMode="stateHidden" />
 
         <!-- Crop Image Library -->
@@ -35,13 +35,13 @@
             android:windowSoftInputMode="stateHidden" />
 
         <activity
-            android:name="com.dev.silverchat.views.activities.ComposeMessageActivity"
-            android:parentActivityName="com.dev.silverchat.views.activities.MessagesListActivity"
+            android:name="com.dev.silverchat.views.activities.FindFriendsActivity"
+            android:parentActivityName="com.dev.silverchat.views.activities.MainListActivity"
             android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="com.dev.silverchat.views.activities.ChatLogActivity"
-            android:parentActivityName="com.dev.silverchat.views.activities.ComposeMessageActivity"
+            android:parentActivityName="com.dev.silverchat.views.activities.FindFriendsActivity"
             android:windowSoftInputMode="stateHidden" />
 
     </application>

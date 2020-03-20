@@ -11,8 +11,8 @@ import com.dev.silverchat.helpers.DateUtils
 import com.dev.silverchat.model.entities.ChatMessage
 import com.dev.silverchat.model.entities.UnreadMessages
 import com.dev.silverchat.model.entities.User
-import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
-import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.views.activities.MainListActivity.Companion.firebaseDatabase
+import com.dev.silverchat.views.activities.MainListActivity.Companion.myId
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -52,7 +52,7 @@ class ChatLogActivity : AppCompatActivity() {
     }
 
     private fun getUserInfo() {
-        selectedUser = intent.getParcelableExtra(ComposeMessageActivity.USER_KEY)
+        selectedUser = intent.getParcelableExtra(FindFriendsActivity.USER_KEY)
         toId = selectedUser?.uid
         toName = selectedUser?.userName
         toImageUrl = selectedUser?.imageUrl

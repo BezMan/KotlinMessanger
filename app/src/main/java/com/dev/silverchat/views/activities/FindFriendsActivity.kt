@@ -6,8 +6,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.dev.silverchat.R
 import com.dev.silverchat.model.entities.User
-import com.dev.silverchat.views.activities.MessagesListActivity.Companion.firebaseDatabase
-import com.dev.silverchat.views.activities.MessagesListActivity.Companion.myId
+import com.dev.silverchat.views.activities.MainListActivity.Companion.firebaseDatabase
+import com.dev.silverchat.views.activities.MainListActivity.Companion.myId
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -15,17 +15,17 @@ import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.kotlinandroidextensions.GroupieViewHolder
 import com.xwray.groupie.kotlinandroidextensions.Item
-import kotlinx.android.synthetic.main.compose_message_activity.*
+import kotlinx.android.synthetic.main.find_friends_activity.*
 import kotlinx.android.synthetic.main.user_row.view.*
 
-class ComposeMessageActivity : AppCompatActivity() {
+class FindFriendsActivity : AppCompatActivity() {
 
     private val className: String = this.javaClass.simpleName
     private val adapter = GroupAdapter<GroupieViewHolder>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.compose_message_activity)
+        setContentView(R.layout.find_friends_activity)
 
         supportActionBar?.title = "Select User"
 
@@ -37,7 +37,7 @@ class ComposeMessageActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-        recyclerview_compose_message.adapter = adapter
+        recyclerview_find_friends.adapter = adapter
 
         fetchUsers()
     }

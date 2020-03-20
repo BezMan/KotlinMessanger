@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.activities.ComposeMessageActivity">
+    tools:context=".views.activities.MainListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview_compose_message"
+        android:id="@+id/recyclerview_messages_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/LightGrey"
+        tools:listitem="@layout/main_list_message_row"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
