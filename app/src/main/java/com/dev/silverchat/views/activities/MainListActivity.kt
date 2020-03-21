@@ -120,9 +120,6 @@ class MainListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.menu_find_users -> {
-                launchFindFriends()
-                }
             R.id.menu_settings -> {
                 openSettings()
                 }
@@ -142,7 +139,7 @@ class MainListActivity : AppCompatActivity() {
     }
 
 
-    private fun launchFindFriends() {
+    fun launchFindFriends(view: View) {
         val findFriendsIntent = Intent(this, FindFriendsActivity::class.java)
         startActivity(findFriendsIntent)
     }

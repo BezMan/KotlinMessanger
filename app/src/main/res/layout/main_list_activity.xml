@@ -15,4 +15,16 @@
         android:background="@color/LightGrey"
         tools:listitem="@layout/main_list_message_row"/>
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_find_friends"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        app:rippleColor="@color/colorSecondaryDark"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_people_users"
+        android:onClick="launchFindFriends"
+        android:layout_margin="32dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
